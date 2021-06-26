@@ -1,11 +1,11 @@
 <div class="container">
   <div class="contentWrapper">
-    <div>
+    <div class="covidHeader">
       <h2>COVID INDIA</h2>
     </div>
     <div class="stateDataWrapper" *ngIf="!isLoading">
       <div class="stateHeaderWrapper" matSort (matSortChange)="sortData($event)" matSortActive="stateConfirmed"
-        matSortDirection="asc">
+        matSortDirection="desc" matSortStart="desc">
         <div mat-sort-header="stateName" class="name header">State/UT</div>
         <div mat-sort-header="stateConfirmed" class="confirmed header">Confirmed</div>
         <div mat-sort-header="stateActive" class="active header">Active</div>

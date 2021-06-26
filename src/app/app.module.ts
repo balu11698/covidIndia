@@ -10,6 +10,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { HomeComponent } from './Components/home/home.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
+import { NgxSpinnerModule } from "ngx-spinner";
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { MatSortModule } from '@angular/material/sort';
     MatToolbarModule,
     HttpClientModule,
     MatTableModule,
-    MatSortModule
+    MatSortModule,
+    NgxSpinnerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

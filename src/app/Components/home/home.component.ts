@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Sort } from '@angular/material/sort';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 export interface SearchResponse {
   State: string;
@@ -33,21 +34,23 @@ export class HomeComponent implements OnInit {
   dataSource: any;
   expandedElement!: SearchResponse | null;
   expanded = false;
-  constructor(private api: ApiService) { }
+  constructor(private api: ApiService,private spinner:NgxSpinnerService) { }
 
   ngOnInit() {
     this.isLoading = true;
     this.getAllData();
   }
   async getAllData() {
+    this.spinner.show();
     await this.getStateData();
     await this.getDistrictData();
     this.isLoading = false;
+    this.spinner.hide();
   }
   async getStateData() {
     let untrimmedStateData: any = await this.api.fetchStateData();
     this.stateData = untrimmedStateData.sort((a:any,b:any)=>{
-      return parseFloat(a.Confirmed) - parseFloat(b.Confirmed)
+      return parseFloat(b.Confirmed) - parseFloat(a.Confirmed)
     }).filter(((data: any) => {
       return data.State_code != undefined;
     }))

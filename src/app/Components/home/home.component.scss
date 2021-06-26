@@ -3,14 +3,17 @@
   background: linear-gradient(to right top, #9fecde, #86dfec);
   // background: #9fecde;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  // justify-content: center;
+  // align-items: center;
   .contentWrapper {
     display: flex;
     flex-direction: column;
     width: 100%;
     margin: 50px;
     overflow-x: auto;
+    .covidHeader{
+      text-align: center;
+    }
     .stateDataWrapper {
       // min-height: 80vh;
       width: 100%;
