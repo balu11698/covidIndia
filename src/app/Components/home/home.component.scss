@@ -1,10 +1,7 @@
 .container {
   min-height: 100vh;
   background: linear-gradient(to right top, #9fecde, #86dfec);
-  // background: #9fecde;
   display: flex;
-  // justify-content: center;
-  // align-items: center;
   .contentWrapper {
     display: flex;
     flex-direction: column;
@@ -15,9 +12,7 @@
       text-align: center;
     }
     .stateDataWrapper {
-      // min-height: 80vh;
       width: 100%;
-      // background: rgb(255 255 255 / 50%);
       z-index: 2;
       .stateWrapper {
         cursor: pointer;
@@ -72,80 +67,3 @@
     }
   }
 }
-// .container {
-//   min-height: 100vh;
-//   background: linear-gradient(to right top, #9fecde, #86dfec);
-//   // background: #9fecde;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   .stateDataWrapper {
-//     min-height: 80vh;
-//     width: 100%;
-//     background:  rgb(255 255 255 / 50%);
-//     border-radius: 2rem;
-//     z-index: 2;
-//     margin: 50px;
-//     overflow-x: auto;
-//     .stateTable,
-//     .districtTable {
-//       width: 100%;
-//       border-collapse: collapse;
-//       border-radius: 2em;
-//       background-color: transparent;
-//       min-width: 600px;
-//       .name {
-//         width: 30%;
-//         max-width: 200px;
-//         // position: sticky;
-//         left: 0;
-//         position: -webkit-sticky;
-//         background:  #cff6ef;
-//       }
-//       .confirmed,
-//       .recovered,
-//       .deaths,
-//       .active {
-//         width: 16.25%;
-//         max-width: 200px;
-//       }
-//       .districtWrapper {
-//         padding: unset;
-//       }
-//       .stateTable tr:last-child td {
-//         border-bottom: 0 solid;
-//       }
-//       tr.example-detail-row {
-//         height: 0;
-//       }
-//       .districtDetails {
-//         overflow:auto;
-//         display: flex;
-//         flex-direction: column;
-//         .districtEndWrapper {
-//           height: 48px;
-//           display: flex;
-//           align-items: center;
-//           justify-content: center;
-//           .districtEndName {
-//             margin-right: 30px;
-//           }
-//           .iconTop {
-//             cursor: pointer;
-//           }
-//         }
-//       }
-//       .stateRows td {
-//         border-bottom-width: 0;
-//         cursor: pointer;
-//       }
-//     }
-//   }
-// }
-// @media screen and (max-width : 600px){
-//   .container{
-//     .stateDataWrapper{
-//       margin:10px;
-//     }
-//   }
-// }
