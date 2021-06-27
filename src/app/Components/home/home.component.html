@@ -4,43 +4,92 @@
       <h2>COVID INDIA</h2>
     </div>
     <div class="stateDataWrapper" *ngIf="!isLoading">
-      <div class="stateHeaderWrapper" matSort (matSortChange)="sortData($event)" matSortActive="stateConfirmed"
-        matSortDirection="desc" matSortStart="desc">
-        <div mat-sort-header="stateName" class="name header">State/UT</div>
-        <div mat-sort-header="stateConfirmed" class="confirmed header">Confirmed</div>
-        <div mat-sort-header="stateActive" class="active header">Active</div>
-        <div mat-sort-header="stateRecovered" class="recovered header">Recovered</div>
-        <div mat-sort-header="stateDeaths" class="deaths header">Deaths</div>
+      <div class="stateHeaderWrapper" matSort #sort1="matSort" (matSortChange)="sortStateData($event)"
+        matSortActive="stateConfirmed" matSortDirection="desc" matSortStart="desc">
+        <div matRipple matRippleColor="#87ebac94" mat-sort-header="stateName" class="name header">State/UT</div>
+        <div matRipple matRippleColor="#87ebac94" mat-sort-header="stateConfirmed" arrowPosition='before'
+          class="confirmed header">Confirmed</div>
+        <div matRipple matRippleColor="#87ebac94" mat-sort-header="stateActive" arrowPosition='before'
+          class="active header">Active</div>
+        <div matRipple matRippleColor="#87ebac94" mat-sort-header="stateRecovered" arrowPosition='before'
+          class="recovered header">Recovered</div>
+        <div matRipple matRippleColor="#87ebac94" mat-sort-header="stateDeaths" arrowPosition='before'
+          class="deaths header">Deaths</div>
       </div>
-      <div class="stateData" *ngFor="let data of stateData;">
+      <ng-container class="stateData" *ngFor="let data of stateData;">
         <div class="stateWrapper" (click)="toggleDistricts(data.State_code)">
           <div class="name">{{data.State}}</div>
-          <div class="confirmed">{{data.Confirmed}}</div>
-          <div class="active">{{data.Active}}</div>
-          <div class="recovered">{{data.Recovered}}</div>
-          <div class="deaths">{{data.Deaths}}</div>
-        </div>
-        <div>
-          <div class="districtDataWrapper"
-            *ngFor="let districtdata of getStatesDistrictData(data.State_code);let i=index"
-            [hidden]="!hideme[data.State_code]">
-            <div class="districtHeaderWrapper" *ngIf="i==0">
-              <div class="name header">State/UT</div>
-              <div class="confirmed header">Confirmed</div>
-              <div class="active header">Active</div>
-              <div class="recovered header">Recovered</div>
-              <div class="deaths header">Deaths</div>
+          <div class="confirmed">
+            <div class="confirmedRed">
+              <mat-icon class="arrowIcon">arrow_upward</mat-icon>{{ data.State | stateDailyIncrease : todaysStateData :
+              'Confirmed' }}
             </div>
-            <div class="districtWrapper">
-              <div class="name">{{districtdata.District}}</div>
-              <div class="confirmed">{{districtdata.Confirmed}}</div>
-              <div class="active">{{districtdata.Active}}</div>
-              <div class="recovered">{{districtdata.Recovered}}</div>
-              <div class="deaths">{{districtdata.Deceased}}</div>
+            <div class="confirmedNumber" #animatedDigit>{{data.Confirmed}}</div>
+          </div>
+          <div class="active"> {{data.Active}}</div>
+          <div class="recovered">
+            <div class="recoveredGreen">
+              <mat-icon class="arrowIcon">arrow_upward</mat-icon>{{data.State | stateDailyIncrease : todaysStateData :
+              'Recovered'}}
             </div>
+            <div class="recoveredNumber">{{data.Recovered}}</div>
+          </div>
+          <div class="deaths">
+            <div class="deathsGrey">
+              <mat-icon class="arrowIcon">arrow_upward</mat-icon>{{data.State | stateDailyIncrease : todaysStateData :
+              'Deaths'}}
+            </div>
+            <div class="deathsNumber">{{data.Deaths}}</div>
           </div>
         </div>
-      </div>
+        <div class="animation">
+          <div class="districtDataWrapper" [hidden]="!hideme[data.State_code]" matSort #sort2="matSort"
+            (matSortChange)="sortDistrictData($event,data.State_code)" matSortActive="districtConfirmed"
+            matSortDirection="desc" matSortStart="desc">
+            <div class="districtHeaderWrapper">
+              <div matRipple matRippleColor="#87ebac94" mat-sort-header="districtName" class="name header">District
+              </div>
+              <div matRipple matRippleColor="#87ebac94" mat-sort-header="districtConfirmed" arrowPosition='before'
+                class="confirmed header">Confirmed</div>
+              <div matRipple matRippleColor="#87ebac94" mat-sort-header="districtActive" arrowPosition='before'
+                class="active header">Active</div>
+              <div matRipple matRippleColor="#87ebac94" mat-sort-header="districtRecovered" arrowPosition='before'
+                class="recovered header">Recovered</div>
+              <div matRipple matRippleColor="#87ebac94" mat-sort-header="districtDeceased" arrowPosition='before'
+                class="deaths header">Deaths</div>
+            </div>
+            <div class="districtWrapper" *ngFor="let districtdata of data.District">
+              <div class="name">{{districtdata.District}}</div>
+              <div class="confirmed">
+                <div class="confirmedRed">
+                  <mat-icon class="arrowIcon">arrow_upward</mat-icon>{{ districtdata.District | districtDailyIncrease :
+                  todaysDistrictData :
+                  'Confirmed' }}
+                </div>
+                <div class="confirmedNumber">{{districtdata.Confirmed}}</div>
+              </div>
+              <div class="active">{{districtdata.Active}}</div>
+              <div class="recovered">
+                <div class="recoveredGreen">
+                  <mat-icon class="arrowIcon">arrow_upward</mat-icon>{{districtdata.District | districtDailyIncrease :
+                  todaysDistrictData :
+                  'Recovered' }}
+                </div>
+                <div class="recoveredNumber">{{districtdata.Recovered}}</div>
+              </div>
+              <div class="deaths">
+                <div class="deathsGrey">
+                  <mat-icon class="arrowIcon">arrow_upward</mat-icon>{{districtdata.District | districtDailyIncrease :
+                  todaysDistrictData :
+                  'Deaths'}}
+                </div>
+                <div class="deathsNumber">{{districtdata.Deceased}}</div>
+              </div>
+            </div>
+            <div class="end">End of {{data.State}} <mat-icon class="arrowIcon" (click)="closeDistricts()">arrow_upward</mat-icon></div>
+          </div>
+        </div>
+      </ng-container>
     </div>
   </div>
 </div>

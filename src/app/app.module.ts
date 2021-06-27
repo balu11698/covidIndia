@@ -8,11 +8,17 @@ import { MatIconModule } from '@angular/material/icon';
 import { HomeComponent } from './Components/home/home.component';
 import { MatSortModule } from '@angular/material/sort';
 import { NgxSpinnerModule } from "ngx-spinner";
+import { MatButtonModule } from '@angular/material/button';
+import { MatRippleModule } from '@angular/material/core';
+import { StateDailyIncreasePipe } from './pipes/state-daily-increase.pipe';
+import { DistrictDailyIncreasePipe } from './pipes/district-daily-increase.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent
+    HomeComponent,
+    StateDailyIncreasePipe,
+    DistrictDailyIncreasePipe,
   ],
   imports: [
     BrowserModule,
@@ -21,7 +27,9 @@ import { NgxSpinnerModule } from "ngx-spinner";
     MatIconModule,
     HttpClientModule,
     MatSortModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    MatButtonModule,
+    MatRippleModule
   ],
   providers: [],
   bootstrap: [AppComponent]

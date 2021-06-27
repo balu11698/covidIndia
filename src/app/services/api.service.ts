@@ -45,4 +45,21 @@ export class ApiService {
     })
     return promise;
   }
+
+  fetchStateDailyData(){
+    const promise = new Promise(resolve => {
+      this.http.get(this.url + 'states.csv', { responseType: 'text' }).subscribe((data) => {
+        resolve(this.csvJSON(data))
+      })
+    })
+    return promise;
+  }
+  fetchDistrictDailyData(){
+    const promise = new Promise(resolve => {
+      this.http.get(this.url + 'districts.csv', { responseType: 'text' }).subscribe((data) => {
+        resolve(this.csvJSON(data))
+      })
+    })
+    return promise;
+  }
 }

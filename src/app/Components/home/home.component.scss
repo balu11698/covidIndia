@@ -8,8 +8,10 @@
     width: 100%;
     margin: 50px;
     overflow-x: auto;
-    .covidHeader{
+    .covidHeader {
       text-align: center;
+      position: sticky;
+      left: 0;
     }
     .stateDataWrapper {
       width: 100%;
@@ -47,15 +49,47 @@
         .recovered,
         .deaths,
         .confirmed {
-          width: 18.5%;
           background: rgb(255 255 255 / 50%);
           display: flex;
-          align-items: center;
+          flex-direction: column;
+          align-items: flex-end;
           justify-content: center;
+          padding-right: 10px;
+          .confirmedRed {
+            display: flex;
+            color: #e86b6b;
+          }
+          .arrowIcon {
+            font-size: 18px;
+            height: unset;
+            width: unset;
+          }
+          .recoveredGreen {
+            display: flex;
+            color: #4fb64f;
+          }
+          .deathsGrey{
+            display: flex;
+            color: #636d63;
+          }
+        }
+        .active,
+        .recovered,
+        .deaths {
+          width: 18%;
+        }
+        .confirmed{
+          width: 21%;
         }
         .header {
-          background: #a6eff4;
+          background: #a6f4d1;;
         }
+      }
+      .end{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 50px;
       }
     }
   }
@@ -67,3 +101,66 @@
     }
   }
 }
+div {
+  -webkit-user-select: none; /* Chrome/Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+ */
+  -o-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+// ::ng-deep .mat-sort-header-arrow[style] {
+
+//   // Hide default arrow stem
+//   .mat-sort-header-stem {
+//     display: none;
+//   }
+//   .mat-sort-header-indicator {
+//     opacity: 1;
+//     color: black;
+//     font-weight: bold;
+
+//     // Hide default arrow as its composed of left, right and middle
+//     .mat-sort-header-pointer-left, .mat-sort-header-pointer-right, .mat-sort-header-pointer-middle  {
+//       display: none;
+//     }
+//   }
+// }
+// .animation {
+//   // animation: animate 3s ease-in-out;
+// }
+@keyframes example {
+  from {
+    margin-left: -100%;
+  }
+  to {
+    margin-left: 0;
+  }
+}
+// @keyframes animate {
+//   from {opacity:0;}
+//   to {opacity: 1;}
+// }
+// @property --n {
+//   syntax: "<integer>";
+//   initial-value: 0;
+//   inherits: false;
+// }
+
+// .confirmedNumber {
+//   animation: animate var(--duration) forwards var(--timing, linear);
+//   counter-reset: num var(--n);
+
+// }
+// .confirmedNumber::before {
+//   content: counter(num);
+// }
+
+// @keyframes animate {
+//   from {
+//     --n: var(--from);
+//   }
+//   to {
+//     --n: var(--to);
+//   }
+// }
