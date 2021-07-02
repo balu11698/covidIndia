@@ -13,6 +13,7 @@ export class DistrictDailyIncreasePipe implements PipeTransform {
       let total = filteredData[1]?.Confirmed - filteredData[0]?.Confirmed
       let totalCount = (total > 0) ? total : null
       return totalCount;
+    
     }
     else if (type == "Recovered") {
       let total = filteredData[1]?.Recovered - filteredData[0]?.Recovered

@@ -57,10 +57,8 @@ export class HomeComponent implements OnInit {
 
   async getAllData() {
     this.spinner.show();
-    await this.getStateData();
+    await Promise.all([this.getStateData(),await this.getDailyStateData(),await this.getDailyDistrictData()])
     await this.getDistrictData();
-    await this.getDailyStateData();
-    await this.getDailyDistrictData();
     await this.totalData();
     this.isLoading = false;
     this.spinner.hide();
@@ -82,10 +80,10 @@ export class HomeComponent implements OnInit {
     // this.allDistrictData = this.allDistrictData.filter((data:any)=>{
     //   return data.District!="Unknown";
     // })  
-    console.log(this.allDistrictData)
   }
 
   async getDailyStateData() {
+    console.time("dailyState");
     this.dailyStateData = await this.api.fetchStateDailyData();
     let today = new Date();
     let yesterday = new Date();
@@ -95,8 +93,11 @@ export class HomeComponent implements OnInit {
     this.todaysStateData = this.dailyStateData.filter((data: any) => {
       return data.Date == todayDate || data.Date == yesterdaysDate;
     })
+    console.log(this.todaysStateData)
+    console.timeEnd("dailyState");
   }
   async getDailyDistrictData() {
+    console.time("dailyDistrict");
     this.dailyDistrictData = await this.api.fetchDistrictDailyData();
     let today = new Date();
     let yesterday = new Date();
@@ -106,9 +107,11 @@ export class HomeComponent implements OnInit {
     this.todaysDistrictData = this.dailyDistrictData.filter((data: any) => {
       return data.Date == todayDate || data.Date == yesterdaysDate;
     })
+    console.timeEnd("dailyDistrict");
   }
 
   async totalData() {
+    console.time('totalData')
     this.stateData.forEach((state: any) => {
       state.District = [];
       this.allDistrictData.forEach((disctrict: any) => {
@@ -122,6 +125,7 @@ export class HomeComponent implements OnInit {
         return (parseFloat(b.Confirmed) - parseFloat(a.Confirmed))
       })
     })
+    console.timeEnd('totalData')
   }
 
   toggleDistricts(item: any) {
