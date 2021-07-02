@@ -57,8 +57,7 @@ export class HomeComponent implements OnInit {
 
   async getAllData() {
     this.spinner.show();
-    await Promise.all([this.getStateData(),await this.getDailyStateData(),await this.getDailyDistrictData()])
-    await this.getDistrictData();
+    await Promise.all([this.getStateData(),this.getDailyStateData(),this.getDailyDistrictData(),this.getDistrictData()])
     await this.totalData();
     this.isLoading = false;
     this.spinner.hide();
@@ -104,9 +103,22 @@ export class HomeComponent implements OnInit {
     yesterday.setDate(today.getDate() - 1);
     let todayDate = today.getFullYear().toString() + '-' + ((today.getMonth() + 1 < 10) ? ('0' + (today.getMonth() + 1)) : (today.getMonth() + 1)).toString() + '-' + ((today.getDate() < 10) ? ('0' + today.getDate()) : today.getDate()).toString();
     let yesterdaysDate = yesterday.getFullYear().toString() + '-' + ((yesterday.getMonth() + 1 < 10) ? ('0' + (yesterday.getMonth() + 1)) : (yesterday.getMonth() + 1)).toString() + '-' + ((yesterday.getDate() < 10) ? ('0' + yesterday.getDate()) : yesterday.getDate()).toString();
+    // let x = [...this.dailyDistrictData].reverse();
     this.todaysDistrictData = this.dailyDistrictData.filter((data: any) => {
       return data.Date == todayDate || data.Date == yesterdaysDate;
     })
+    // x.filter((data: any) => {
+    //   if(data.Date == todayDate || data.Date == yesterdaysDate){
+    //     this.todaysDistrictData.push(data)
+    //   }
+    // })
+    // x.some((data:any) =>{
+    //   if(data.Date == todayDate){
+    //     this.todaysDistrictData.push(data);
+    //     // console.log(data)
+    //    }
+    // })
+    console.log(this.todaysDistrictData,"today")
     console.timeEnd("dailyDistrict");
   }
 
