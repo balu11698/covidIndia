@@ -8,11 +8,22 @@
     width: 100%;
     margin: 15px 50px;
     overflow-x: auto;
-    padding-bottom: 20px;
+    // padding-bottom: 20px;
     .covidHeader {
-      text-align: center;
+      color: #e77070;
       position: sticky;
       left: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      .lastUpdated {
+        display: flex;
+        align-items: center;
+        .lastUpdatedIcon {
+          margin-right: 5px;
+        }
+      }
     }
     .totalDataWrapper {
       display: flex;
@@ -65,11 +76,17 @@
       -webkit-animation-delay: 0.5s;
       animation-fill-mode: both;
       .vaccination1Legend {
-        display: flex;
+        // display: flex;
+        .vaccinationLabelWrapper {
+          display: flex;
+        }
       }
       .vaccination2Legend {
-        display: flex;
+        // display: flex;
         margin-bottom: 10px;
+        .vaccinationLabelWrapper {
+          display: flex;
+        }
       }
       .progressBar {
         display: flex;
@@ -139,11 +156,23 @@
       z-index: 2;
       min-width: 600px;
       animation-name: fade;
-      animation-duration: .5s;
+      animation-duration: 0.5s;
       animation-delay: 1s;
       animation-fill-mode: both;
       .stateWrapper {
         cursor: pointer;
+      }
+      .lastUpdated {
+        display: flex;
+        align-items: center;
+        color: #e86b6b;
+        height: 40px;
+        position: sticky;
+        left: 0;
+        width: fit-content;
+        .lastUpdatedIcon {
+          margin-right: 5px;
+        }
       }
       .stateWrapper,
       .stateHeaderWrapper,
@@ -221,6 +250,10 @@
         justify-content: center;
         align-items: center;
         height: 50px;
+        width: fit-content;
+        position: sticky;
+        left: 0;
+        color: #e86b6b;
       }
     }
   }
@@ -229,6 +262,16 @@
   .container {
     .contentWrapper {
       margin: 15px;
+      mat-card {
+        padding: 5px;
+      }
+      .totalDataWrapper {
+        .total {
+          .totalCount {
+            font-size: 14px;
+          }
+        }
+      }
     }
   }
 }
@@ -313,12 +356,12 @@ div {
 //   inherits: false;
 // }
 
-// .confirmedNumber {
+// .totalCount {
 //   animation: animate var(--duration) forwards var(--timing, linear);
 //   counter-reset: num var(--n);
 
 // }
-// .confirmedNumber::before {
+// .totalCount::before {
 //   content: counter(num);
 // }
 
@@ -329,4 +372,12 @@ div {
 //   to {
 //     --n: var(--to);
 //   }
+// }
+::-webkit-scrollbar {
+  width: 0; /* Remove scrollbar space */
+  background: transparent; /* Optional: just make scrollbar invisible */
+}
+/* Optional: show position indicator in red */
+// ::-webkit-scrollbar-thumb {
+//   background: #ff0000;
 // }

@@ -15,6 +15,8 @@ import { DistrictDailyIncreasePipe } from './pipes/district-daily-increase.pipe'
 import { StateNamePipe } from './pipes/state-name.pipe';
 import { DistrictNamePipe } from './pipes/district-name.pipe';
 import { VaccinationCountPipe } from './pipes/vaccination-count.pipe';
+import { MatCardModule } from '@angular/material/card';
+import { LastUpdatedPipe } from './pipes/last-updated.pipe';
 
 @NgModule({
   declarations: [
@@ -25,6 +27,7 @@ import { VaccinationCountPipe } from './pipes/vaccination-count.pipe';
     StateNamePipe,
     DistrictNamePipe,
     VaccinationCountPipe,
+    LastUpdatedPipe,
   ],
   imports: [
     BrowserModule,
@@ -35,7 +38,8 @@ import { VaccinationCountPipe } from './pipes/vaccination-count.pipe';
     MatSortModule,
     NgxSpinnerModule,
     MatButtonModule,
-    MatRippleModule
+    MatRippleModule,
+    MatCardModule
   ],
   providers: [],
   bootstrap: [AppComponent]

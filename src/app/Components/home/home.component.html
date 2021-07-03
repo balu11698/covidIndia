@@ -107,32 +107,44 @@
 
 <div class="container">
   <div class="contentWrapper">
-    <!-- <div class="covidHeader">
-      <h2>COVID INDIA</h2>
-    </div> -->
     <ng-container *ngIf="!isLoading">
+      <div class="covidHeader">
+        <div style="font-size: 24px;">INDIA</div>
+        <div class="lastUpdated">
+          <mat-icon class="lastUpdatedIcon">av_timer</mat-icon>{{indiaData[0].value.meta.last_updated | lastUpdated}}
+        </div>
+      </div>
       <div class="totalDataWrapper">
-        <div class="total confirmed">
+        <mat-card class="total confirmed">
           <div>Confirmed</div>
-          <div class="today confirmed"><mat-icon class="arrowIcon">arrow_upward</mat-icon>{{indiaData[0].value.delta.confirmed}}</div>
+          <div class="today confirmed">
+            <mat-icon class="arrowIcon">arrow_upward</mat-icon>{{indiaData[0].value.delta.confirmed}}
+          </div>
           <div class="totalCount">{{indiaData[0].value.total.confirmed}}</div>
-        </div>
-        <div class="total active">Active
+        </mat-card>
+        <mat-card class="total active">Active
           <div class="totalCount">{{indiaData[0].value.total.confirmed - indiaData[0].value.total.recovered}}</div>
-        </div>
-        <div class="total recovered">Recovered
-          <div class="today recovered"><mat-icon class="arrowIcon">arrow_upward</mat-icon>{{indiaData[0].value.delta.recovered}}</div>
+        </mat-card>
+        <mat-card class="total recovered">Recovered
+          <div class="today recovered">
+            <mat-icon class="arrowIcon">arrow_upward</mat-icon>{{indiaData[0].value.delta.recovered}}
+          </div>
           <div class="totalCount">{{indiaData[0].value.total.recovered}}</div>
-        </div>
-        <div class="total deaths">Deaths
-          <div class="today deaths"><mat-icon class="arrowIcon">arrow_upward</mat-icon>{{indiaData[0].value.delta.deceased}}</div>
+        </mat-card>
+        <mat-card class="total deaths">Deaths
+          <div class="today deaths">
+            <mat-icon class="arrowIcon">arrow_upward</mat-icon>{{indiaData[0].value.delta.deceased}}
+          </div>
           <div class="totalCount">{{indiaData[0].value.total.deceased}}</div>
-        </div>
+        </mat-card>
       </div>
       <div class="vaccinationWrapper">
         <div class="vaccination1Legend">
-          <div [ngStyle]="{'width' : 'calc(' + (indiaData | vaccinationCount : 'vaccination1') + ' - 3rem)'}"></div>
-          <div class="vaccination1Label">At least one dose {{indiaData | vaccinationCount : 'vaccination1'}}</div>
+          <div class="vaccinationLabelWrapper">
+            <div [ngStyle]="{'width' : 'calc(' + (indiaData | vaccinationCount : 'vaccination1') + ' - 3rem)'}"></div>
+            <div class="vaccination1Label">At least one dose {{indiaData | vaccinationCount : 'vaccination1'}}</div>
+          </div>
+          <div [ngStyle]="{'margin-left' : indiaData | vaccinationCount : 'vaccination1'}">|</div>
         </div>
         <div class="progressBar">
           <span class="progressBarValueVaccination1"
@@ -145,8 +157,11 @@
           </span>
         </div>
         <div class="vaccination2Legend">
-          <div [ngStyle]="{'width' : 'calc(' + (indiaData | vaccinationCount : 'vaccination2') + ' - 3rem)'}"></div>
-          <div class="vaccination2Label">Fully Vaccinated {{indiaData | vaccinationCount : 'vaccination2'}}</div>
+          <div [ngStyle]="{'margin-left' : indiaData | vaccinationCount : 'vaccination2'}">|</div>
+          <div class="vaccinationLabelWrapper">
+            <div [ngStyle]="{'width' : 'calc(' + (indiaData | vaccinationCount : 'vaccination2') + ' - 3rem)'}"></div>
+            <div class="vaccination2Label">Fully Vaccinated {{indiaData | vaccinationCount : 'vaccination2'}}</div>
+          </div>
         </div>
       </div>
       <div class="stateDataWrapper">
@@ -196,6 +211,10 @@
           <div class="districtDataWrapper" [hidden]="!hideDistricts[data.state]" matSort #sort2="matSort"
             (matSortChange)="sortDistrictData($event,data.state)" matSortActive="districtConfirmed"
             matSortDirection="desc" matSortStart="desc">
+            <!-- {{data.state}} details<mat-icon>more_horiz</mat-icon> -->
+            <div class="lastUpdated">
+              <mat-icon class="lastUpdatedIcon">av_timer</mat-icon>{{data.value.meta.last_updated | lastUpdated}}
+            </div>
             <div class="districtHeaderWrapper">
               <div matRipple matRippleColor="#87ebac94" mat-sort-header="districtName" class="name header" disableClear>
                 District
@@ -260,6 +279,7 @@
                 </ng-container>
               </div>
             </div>
+            <div class="end">End of {{data.state}}</div>
           </div>
         </ng-container>
       </div>

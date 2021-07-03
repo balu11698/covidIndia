@@ -43,7 +43,7 @@ export class HomeComponent implements OnInit {
   todaysStateData: any;
   todaysDistrictData: any;
   districtData: any;
-  indiaData:any;
+  indiaData: any;
   stateColumns: string[] = ['State', 'Confirmed', 'Active', 'Recovered', 'Deaths'];
   districtColumns: string[] = ['District', 'Confirmed', 'Active', 'Recovered', 'Deaths'];
   dataSource: any;
@@ -90,6 +90,33 @@ export class HomeComponent implements OnInit {
     "LA": "Ladakh",
     "TT": "India"
   }
+  chartData = [
+    {
+      "name": "Germany",
+      "series": [
+        {
+          "name": "2010",
+          "value": 40632,
+          "extra": {
+            "code": "de"
+          }
+        },
+        {
+          "name": "2000",
+          "value": 36953,
+          "extra": {
+            "code": "de"
+          }
+        },
+        {
+          "name": "1990",
+          "value": 31476,
+          "extra": {
+            "code": "de"
+          }
+        }
+      ]
+    }]
 
   hideDistricts: any = {}
   @ViewChild('sort1') public sort1!: MatSort;
@@ -116,13 +143,13 @@ export class HomeComponent implements OnInit {
     for (let key in keys) {
       this.stateData.push({ state: this.getStateNames(key), value: keys[key] });
     }
-    this.indiaData = this.stateData.filter((data:any)=>{
-      return data.state=="India";
-    })  
+    this.indiaData = this.stateData.filter((data: any) => {
+      return data.state == "India";
+    })
     console.log(this.indiaData)
-    this.stateData = this.stateData.filter((data:any)=>{
-      return data.state!="India";
-    })  
+    this.stateData = this.stateData.filter((data: any) => {
+      return data.state != "India";
+    })
     for (let key1 in this.stateData) {
       this.stateData[key1].value.dis = [];
       for (let keys2 in this.stateData[key1].value.districts) {
