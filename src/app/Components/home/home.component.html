@@ -118,24 +118,24 @@
         <mat-card class="total confirmed">
           <div>Confirmed</div>
           <div class="today confirmed">
-            <mat-icon class="arrowIcon">arrow_upward</mat-icon>{{indiaData[0].value.delta.confirmed}}
+            <mat-icon class="arrowIcon">arrow_upward</mat-icon>{{indiaData[0].value.delta.confirmed|numberFormat}}
           </div>
-          <div class="totalCount">{{indiaData[0].value.total.confirmed}}</div>
+          <div class="totalCount">{{indiaData[0].value.total.confirmed|numberFormat}}</div>
         </mat-card>
         <mat-card class="total active">Active
-          <div class="totalCount">{{indiaData[0].value.total.confirmed - indiaData[0].value.total.recovered}}</div>
+          <div class="totalCount">{{(indiaData[0].value.total.confirmed - indiaData[0].value.total.recovered)|numberFormat}}</div>
         </mat-card>
         <mat-card class="total recovered">Recovered
           <div class="today recovered">
-            <mat-icon class="arrowIcon">arrow_upward</mat-icon>{{indiaData[0].value.delta.recovered}}
+            <mat-icon class="arrowIcon">arrow_upward</mat-icon>{{indiaData[0].value.delta.recovered|numberFormat}}
           </div>
-          <div class="totalCount">{{indiaData[0].value.total.recovered}}</div>
+          <div class="totalCount">{{indiaData[0].value.total.recovered|numberFormat}}</div>
         </mat-card>
         <mat-card class="total deaths">Deaths
           <div class="today deaths">
-            <mat-icon class="arrowIcon">arrow_upward</mat-icon>{{indiaData[0].value.delta.deceased}}
+            <mat-icon class="arrowIcon">arrow_upward</mat-icon>{{indiaData[0].value.delta.deceased|numberFormat}}
           </div>
-          <div class="totalCount">{{indiaData[0].value.total.deceased}}</div>
+          <div class="totalCount">{{indiaData[0].value.total.deceased|numberFormat}}</div>
         </mat-card>
       </div>
       <div class="vaccinationWrapper">
@@ -185,27 +185,27 @@
             <div class="confirmed">
               <div class="confirmedRed">
                 <ng-container *ngIf="data.value.delta?.confirmed">
-                  <mat-icon class="arrowIcon">arrow_upward</mat-icon>{{data.value.delta?.confirmed}}
+                  <mat-icon class="arrowIcon">arrow_upward</mat-icon>{{data.value.delta?.confirmed |numberFormat}}
                 </ng-container>
               </div>
-              <div class="confirmedNumber" #animatedDigit>{{data.value.total?.confirmed}}</div>
+              <div class="confirmedNumber" #animatedDigit>{{data.value.total?.confirmed |numberFormat}}</div>
             </div>
-            <div class="active"> {{data.value.total.confirmed - data.value.total.recovered}}</div>
+            <div class="active"> {{data.value.total.confirmed - data.value.total.recovered |numberFormat}}</div>
             <div class="recovered">
               <div class="recoveredGreen">
                 <ng-container *ngIf="data.value.delta?.recovered">
-                  <mat-icon class="arrowIcon">arrow_upward</mat-icon>{{data.value.delta?.recovered}}
+                  <mat-icon class="arrowIcon">arrow_upward</mat-icon>{{data.value.delta?.recovered |numberFormat}}
                 </ng-container>
               </div>
-              <div class="recoveredNumber">{{data.value.total.recovered}}</div>
+              <div class="recoveredNumber">{{data.value.total.recovered |numberFormat}}</div>
             </div>
             <div class="deaths">
               <div class="deathsGrey">
                 <ng-container *ngIf="data.value.delta?.deceased">
-                  <mat-icon class="arrowIcon">arrow_upward</mat-icon>{{data.value.delta?.deceased}}
+                  <mat-icon class="arrowIcon">arrow_upward</mat-icon>{{data.value.delta?.deceased |numberFormat}}
                 </ng-container>
               </div>
-              <div class="deathsNumber">{{data.value.total?.deceased}}</div>
+              <div class="deathsNumber">{{data.value.total?.deceased |numberFormat}}</div>
             </div>
           </div>
           <div class="districtDataWrapper" [hidden]="!hideDistricts[data.state]" matSort #sort2="matSort"
@@ -234,10 +234,10 @@
                 <ng-container *ngIf="districtdata.value.total?.confirmed">
                   <div class="confirmedRed">
                     <ng-container *ngIf="districtdata.value.delta?.confirmed">
-                      <mat-icon class="arrowIcon">arrow_upward</mat-icon>{{districtdata.value.delta?.confirmed}}
+                      <mat-icon class="arrowIcon">arrow_upward</mat-icon>{{districtdata.value.delta?.confirmed |numberFormat}}
                     </ng-container>
                   </div>
-                  <div class="confirmedNumber">{{districtdata.value.total?.confirmed}}</div>
+                  <div class="confirmedNumber">{{districtdata.value.total?.confirmed |numberFormat}}</div>
                 </ng-container>
                 <ng-container *ngIf="!districtdata.value.total?.confirmed">
                   <div class="confirmedNumber">-</div>
@@ -246,7 +246,7 @@
               <div class="active">
                 <ng-container
                   *ngIf="districtdata.value.total?.confirmed - districtdata.value.total?.recovered as activeDistrict">
-                  {{activeDistrict}}
+                  {{activeDistrict |numberFormat}}
                 </ng-container>
                 <ng-container *ngIf="!(districtdata.value.total?.confirmed - districtdata.value.total?.recovered)">
                   -
@@ -256,10 +256,10 @@
                 <ng-container *ngIf="districtdata.value.total?.recovered">
                   <div class="recoveredGreen">
                     <ng-container *ngIf="districtdata.value.delta?.recovered">
-                      <mat-icon class="arrowIcon">arrow_upward</mat-icon>{{districtdata.value.delta?.recovered}}
+                      <mat-icon class="arrowIcon">arrow_upward</mat-icon>{{districtdata.value.delta?.recovered |numberFormat}}
                     </ng-container>
                   </div>
-                  <div class="recoveredNumber">{{districtdata.value.total?.recovered}}</div>
+                  <div class="recoveredNumber">{{districtdata.value.total?.recovered |numberFormat}}</div>
                 </ng-container>
                 <ng-container *ngIf="!districtdata.value.total?.recovered">
                   <div class="recoveredNumber">-</div>
@@ -269,10 +269,10 @@
                 <ng-container *ngIf="districtdata.value.total?.deceased">
                   <div class="deathsGrey">
                     <ng-container *ngIf="districtdata.value.delta?.deceased">
-                      <mat-icon class="arrowIcon">arrow_upward</mat-icon>{{districtdata.value.delta?.deceased}}
+                      <mat-icon class="arrowIcon">arrow_upward</mat-icon>{{districtdata.value.delta?.deceased |numberFormat}}
                     </ng-container>
                   </div>
-                  <div class="deathsNumber">{{districtdata.value.total?.deceased}}</div>
+                  <div class="deathsNumber">{{districtdata.value.total?.deceased |numberFormat}}</div>
                 </ng-container>
                 <ng-container *ngIf="!districtdata.value.total?.deceased">
                   <div class="deathsNumber">-</div>

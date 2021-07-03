@@ -17,6 +17,7 @@ import { DistrictNamePipe } from './pipes/district-name.pipe';
 import { VaccinationCountPipe } from './pipes/vaccination-count.pipe';
 import { MatCardModule } from '@angular/material/card';
 import { LastUpdatedPipe } from './pipes/last-updated.pipe';
+import { NumberFormatPipe } from './pipes/number-format.pipe';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { LastUpdatedPipe } from './pipes/last-updated.pipe';
     DistrictNamePipe,
     VaccinationCountPipe,
     LastUpdatedPipe,
+    NumberFormatPipe,
   ],
   imports: [
     BrowserModule,
