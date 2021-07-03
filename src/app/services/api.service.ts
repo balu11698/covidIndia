@@ -62,4 +62,21 @@ export class ApiService {
     })
     return promise;
   }
+  fetchStateData1(){
+    const promise = new Promise(resolve => {
+      this.http.get('https://api.covid19india.org/v4/min/data.min.json', { responseType: 'text' }).subscribe((data) => {
+        resolve(data);
+      })
+    })
+    return promise;
+    
+  }
+  fetchDataMin(){
+    const promise = new Promise(resolve => {
+      this.http.get('https://api.covid19india.org/v4/min/data-all.min.json', { responseType: 'text' }).subscribe((data) => {
+        resolve(data);
+      })
+    })
+    return promise;
+  }
 }

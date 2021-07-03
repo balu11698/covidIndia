@@ -6,16 +6,142 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    margin: 50px;
+    margin: 15px 50px;
     overflow-x: auto;
+    padding-bottom: 20px;
     .covidHeader {
       text-align: center;
       position: sticky;
       left: 0;
     }
+    .totalDataWrapper {
+      display: flex;
+      justify-content: space-between;
+      position: sticky;
+      left: 0;
+      animation-name: fade;
+      animation-duration: 0.5s;
+      .total {
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 10px;
+        .today {
+          display: flex;
+          align-items: center;
+          font-size: 12px;
+          .arrowIcon {
+            height: unset;
+            width: unset;
+            font-size: unset;
+          }
+        }
+        .totalCount {
+          font-size: 16px;
+        }
+      }
+      .total.confirmed {
+        color: #e86b6b;
+      }
+      .total.active {
+        color: #978bee;
+      }
+      .total.recovered {
+        color: #4fb64f;
+      }
+      .total.deaths {
+        color: #636d63;
+      }
+    }
+    .vaccinationWrapper {
+      position: sticky;
+      left: 0;
+      animation-name: fade;
+      animation-duration: 0.5s;
+      animation-delay: 0.5s;
+      -webkit-animation-name: fade;
+      -webkit-animation-duration: 0.5s;
+      -webkit-animation-delay: 0.5s;
+      animation-fill-mode: both;
+      .vaccination1Legend {
+        display: flex;
+      }
+      .vaccination2Legend {
+        display: flex;
+        margin-bottom: 10px;
+      }
+      .progressBar {
+        display: flex;
+        position: relative;
+        background: aliceblue;
+        height: 25px;
+        background: #edc0c0;
+        position: sticky;
+        left: 0;
+        border-radius: 5px;
+        .progressBarValueVaccination1 {
+          height: 100%;
+          position: absolute;
+          display: flex;
+          border-radius: 5px;
+          .progressAnimation {
+            background: #e2aaaae6;
+            background-image: linear-gradient(
+              210deg,
+              #e7868670 25%,
+              transparent 80%,
+              transparent 50%,
+              #fca311 70%,
+              #fca311 75%,
+              transparent 75%,
+              transparent
+            );
+            -webkit-animation: progressBar 1s ease-in-out;
+            -moz-animation: progressBar 1s ease-in-out;
+            animation: progressBar 1s ease-in-out;
+            animation-fill-mode: both;
+            -webkit-animation-fill-mode: both;
+            -moz-animation-fill-mode: both;
+            border-radius: 5px;
+          }
+        }
+        .progressBarValueVaccination2 {
+          position: absolute;
+          height: 100%;
+          display: flex;
+          border-radius: 5px;
+          .progressAnimation {
+            background: #fd808099;
+            background-image: linear-gradient(
+              210deg,
+              #e0515182 25%,
+              transparent 80%,
+              transparent 50%,
+              #fca311 70%,
+              #ff6c6cf2 75%,
+              transparent 75%,
+              transparent
+            );
+            -webkit-animation: progressBar 1s ease-in-out;
+            -moz-animation: progressBar 1s ease-in-out;
+            animation: progressBar 1s ease-in-out;
+            animation-fill-mode: both;
+            -webkit-animation-fill-mode: both;
+            -moz-animation-fill-mode: both;
+            border-radius: 5px;
+          }
+        }
+      }
+    }
     .stateDataWrapper {
       width: 100%;
       z-index: 2;
+      min-width: 600px;
+      animation-name: fade;
+      animation-duration: .5s;
+      animation-delay: 1s;
+      animation-fill-mode: both;
       .stateWrapper {
         cursor: pointer;
       }
@@ -25,7 +151,6 @@
       .districtWrapper {
         display: flex;
         margin-bottom: 10px;
-        min-width: 600px;
         .name {
           width: 25%;
           position: sticky;
@@ -41,9 +166,15 @@
         .recovered,
         .deaths,
         .confirmed {
-          margin-right: 15px;
-          border-radius: 15px;
+          border-radius: 5px;
           min-height: 48px;
+          word-break: break-word;
+        }
+        .name,
+        .active,
+        .recovered,
+        .confirmed {
+          margin-right: 10px;
         }
         .active,
         .recovered,
@@ -68,24 +199,24 @@
             display: flex;
             color: #4fb64f;
           }
-          .deathsGrey{
+          .deathsGrey {
             display: flex;
             color: #636d63;
           }
         }
         .active,
-        .recovered,
         .deaths {
-          width: 18%;
+          width: 16.5%;
         }
-        .confirmed{
+        .confirmed,
+        .recovered {
           width: 21%;
         }
         .header {
-          background: #a6f4d1;;
+          background: #a6f4d1;
         }
       }
-      .end{
+      .end {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -97,7 +228,7 @@
 @media screen and (max-width: 800px) {
   .container {
     .contentWrapper {
-      margin: 10px;
+      margin: 15px;
     }
   }
 }
@@ -135,6 +266,41 @@ div {
   }
   to {
     margin-left: 0;
+  }
+}
+@keyframes progressBar {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+@-webkit-keyframes progressBar {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 100%;
+  }
+}
+@keyframes vaccinationOpacity {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes fade {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 20px, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateZ(0);
   }
 }
 // @keyframes animate {

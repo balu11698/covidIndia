@@ -12,6 +12,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatRippleModule } from '@angular/material/core';
 import { StateDailyIncreasePipe } from './pipes/state-daily-increase.pipe';
 import { DistrictDailyIncreasePipe } from './pipes/district-daily-increase.pipe';
+import { StateNamePipe } from './pipes/state-name.pipe';
+import { DistrictNamePipe } from './pipes/district-name.pipe';
+import { VaccinationCountPipe } from './pipes/vaccination-count.pipe';
 
 @NgModule({
   declarations: [
@@ -19,6 +22,9 @@ import { DistrictDailyIncreasePipe } from './pipes/district-daily-increase.pipe'
     HomeComponent,
     StateDailyIncreasePipe,
     DistrictDailyIncreasePipe,
+    StateNamePipe,
+    DistrictNamePipe,
+    VaccinationCountPipe,
   ],
   imports: [
     BrowserModule,

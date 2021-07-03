@@ -4,6 +4,8 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { MatSort, Sort } from '@angular/material/sort';
 import { NgxSpinnerService } from 'ngx-spinner';
 
+
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -33,20 +35,63 @@ export class HomeComponent implements OnInit {
   isLoading = false;
   isExpand = false;
   // stateData: any;
-  hideme: any = {};
-  stateData: any;
+  stateData: any[] = [];
   allDistrictData: any;
   dailyStateData: any;
   dailyDistrictData: any;
   currentState = 'initial'
   todaysStateData: any;
-  todaysDistrictData:any;
+  todaysDistrictData: any;
   districtData: any;
+  indiaData:any;
   stateColumns: string[] = ['State', 'Confirmed', 'Active', 'Recovered', 'Deaths'];
   districtColumns: string[] = ['District', 'Confirmed', 'Active', 'Recovered', 'Deaths'];
   dataSource: any;
   expanded = false;
+  dataMin: any;
   allData = [];
+  stateNames: any = {
+    "AN": "Andaman and Nicobar Islands",
+    "AP": "Andhra Pradesh",
+    "AR": "Arunachal Pradesh",
+    "AS": "Assam",
+    "BR": "Bihar",
+    "CH": "Chandigarh",
+    "CT": "Chhattisgarh",
+    "DN": "Dadra and Nagar Haveli",
+    "DD": "Daman and Diu",
+    "DL": "Delhi",
+    "GA": "Goa",
+    "GJ": "Gujarat",
+    "HR": "Haryana",
+    "HP": "Himachal Pradesh",
+    "JK": "Jammu and Kashmir",
+    "JH": "Jharkhand",
+    "KA": "Karnataka",
+    "KL": "Kerala",
+    "LD": "Lakshadweep",
+    "MP": "Madhya Pradesh",
+    "MH": "Maharashtra",
+    "MN": "Manipur",
+    "ML": "Meghalaya",
+    "MZ": "Mizoram",
+    "NL": "Nagaland",
+    "OR": "Odisha",
+    "PY": "Puducherry",
+    "PB": "Punjab",
+    "RJ": "Rajasthan",
+    "SK": "Sikkim",
+    "TN": "Tamil Nadu",
+    "TG": "Telangana",
+    "TR": "Tripura",
+    "UP": "Uttar Pradesh",
+    "UT": "Uttarakhand",
+    "WB": "West Bengal",
+    "LA": "Ladakh",
+    "TT": "India"
+  }
+
+  hideDistricts: any = {}
   @ViewChild('sort1') public sort1!: MatSort;
   @ViewChild('sort2') public sort2!: MatSort;
   constructor(private api: ApiService, private spinner: NgxSpinnerService) { }
@@ -57,22 +102,109 @@ export class HomeComponent implements OnInit {
 
   async getAllData() {
     this.spinner.show();
-    await Promise.all([this.getStateData(),this.getDailyStateData(),this.getDailyDistrictData(),this.getDistrictData()])
-    await this.totalData();
+    await this.getStateData();
+    // await this.getDataMin();
     this.isLoading = false;
     this.spinner.hide();
   }
+  getStateNames(shortForm: any) {
+    return this.stateNames[shortForm]
+  }
   async getStateData() {
-    let untrimmedStateData: any = await this.api.fetchStateData();
-    this.stateData = untrimmedStateData.sort((a: any, b: any) => {
-      return parseFloat(b.Confirmed) - parseFloat(a.Confirmed)
-    }).filter(((data: any) => {
-      return data.State_code != undefined;
-    }))
+    let data: any = await this.api.fetchStateData1();
+    let keys: any = JSON.parse(data);
+    for (let key in keys) {
+      this.stateData.push({ state: this.getStateNames(key), value: keys[key] });
+    }
+    this.indiaData = this.stateData.filter((data:any)=>{
+      return data.state=="India";
+    })  
+    console.log(this.indiaData)
+    this.stateData = this.stateData.filter((data:any)=>{
+      return data.state!="India";
+    })  
+    for (let key1 in this.stateData) {
+      this.stateData[key1].value.dis = [];
+      for (let keys2 in this.stateData[key1].value.districts) {
+        this.stateData[key1].value.dis.push({ district: keys2, value: this.stateData[key1].value.districts[keys2] });
+      }
+    }
+    this.stateData.sort((a: any, b: any) => {
+      return parseFloat(b.value.total.confirmed) - parseFloat(a.value.total.confirmed)
+    })
+    this.stateData.filter((data: any) => {
+      data.value.dis?.sort((a: any, b: any) => {
+        return (parseFloat(b.value.total.confirmed) - parseFloat(a.value.total.confirmed))
+      })
+    })
     this.stateData.forEach((e: any) => {
-      this.hideme[e.State_code] = false;
+      this.hideDistricts[e.state] = false;
+    });
+    console.log(this.stateData)
+
+  }
+  sortStateData(sort: Sort) {
+    const data = this.stateData.slice();
+    if (!sort.active || sort.direction === '') {
+      this.stateData = data;
+      return;
+    }
+    this.stateData = data.sort((a: any, b: any) => {
+      const isAsc = sort.direction === 'asc';
+      switch (sort.active) {
+        case 'stateName': return compare(a.state, b.state, isAsc);
+        case 'stateConfirmed': return compare(+a.value.total.confirmed, +b.value.total.confirmed, isAsc);
+        case 'stateRecovered': return compare(+a.value.total.recovered, +b.value.total.recovered, isAsc);
+        case 'stateActive': return compare(+(a.value.total.confirmed - a.value.total.recovered), +(b.value.total.confirmed - b.value.total.recovered), isAsc);
+        case 'stateDeaths': return compare(+a.value.total.deceased, +b.value.total.deceased, isAsc);
+        default: return 0;
+      }
     });
   }
+  sortDistrictData(sort2: Sort, stateCode: any) {
+    let sortDistrict = this.stateData.filter((state: any) => { return state.state == stateCode })[0].value.dis
+    const data = this.stateData.slice()
+    const data1 = sortDistrict.slice();
+    if (!sort2.active || sort2.direction === '') {
+      this.stateData = data;
+      return;
+    }
+    let sorted = data1.sort((a: any, b: any) => {
+      const isAsc = sort2.direction === 'asc';
+      switch (sort2.active) {
+        case 'districtName': return compare(a.district, b.district, isAsc);
+        case 'districtConfirmed': return compare(+a.value.total.confirmed, +b.value.total.confirmed, isAsc);
+        case 'districtRecovered': return compare(+a.value.total.recovered, +b.value.total.recovered, isAsc);
+        case 'districtActive': return compare(+(a.value.total.confirmed - a.value.total.recovered), +(b.value.total.confirmed - b.value.total.recovered), isAsc);
+        case 'districtDeceased': return compare(+a.value.total.deceased ? a.value.total.deceased : 0, +b.value.total.deceased ? b.value.total.deceased : 0, isAsc);
+        default: return 0;
+      }
+    });
+    this.stateData.forEach((state: any) => {
+      if (state.state == stateCode) {
+        state.value.dis = sorted;
+      }
+    })
+    return this.stateData;
+  }
+  async getDataMin() {
+    console.time("dataMin")
+    this.dataMin = await this.api.fetchDataMin();
+    console.log(JSON.parse(this.dataMin))
+    console.timeEnd("dataMin")
+  }
+
+  // async getStateData() {
+  //   let untrimmedStateData: any = await this.api.fetchStateData();
+  //   this.stateData = untrimmedStateData.sort((a: any, b: any) => {
+  //     return parseFloat(b.Confirmed) - parseFloat(a.Confirmed)
+  //   }).filter(((data: any) => {
+  //     return data.State_code != undefined;
+  //   }))
+  //   this.stateData.forEach((e: any) => {
+  //     this.hideme[e.State_code] = false;
+  //   });
+  // }
 
   async getDistrictData() {
     this.allDistrictData = await this.api.fetchDistrictData();
@@ -118,7 +250,7 @@ export class HomeComponent implements OnInit {
     //     // console.log(data)
     //    }
     // })
-    console.log(this.todaysDistrictData,"today")
+    console.log(this.todaysDistrictData, "today")
     console.timeEnd("dailyDistrict");
   }
 
@@ -141,69 +273,69 @@ export class HomeComponent implements OnInit {
   }
 
   toggleDistricts(item: any) {
-    if (this.hideme[item] == false) {
+    if (this.hideDistricts[item] == false) {
       this.currentState = 'final';
-      Object.keys(this.hideme).forEach(h => {
-        this.hideme[h] = false;
+      Object.keys(this.hideDistricts).forEach(h => {
+        this.hideDistricts[h] = false;
       });
-      this.hideme[item] = true;
+      this.hideDistricts[item] = true;
     }
     else {
-      Object.keys(this.hideme).forEach(h => {
-        this.hideme[h] = false;
+      Object.keys(this.hideDistricts).forEach(h => {
+        this.hideDistricts[h] = false;
       });
       this.currentState = this.currentState == "initial" ? "final" : "initial";
     }
   }
-  closeDistricts(){
-    Object.keys(this.hideme).forEach(h => {
-      this.hideme[h] = false;
-    });
-  }
-  sortStateData(sort: Sort) {
-    const data = this.stateData.slice();
-    if (!sort.active || sort.direction === '') {
-      this.stateData = data;
-      return;
-    }
-    this.stateData = data.sort((a: any, b: any) => {
-      const isAsc = sort.direction === 'asc';
-      switch (sort.active) {
-        case 'stateName': return compare(a.State, b.State, isAsc);
-        case 'stateConfirmed': return compare(+a.Confirmed, +b.Confirmed, isAsc);
-        case 'stateRecovered': return compare(+a.Recovered, +b.Recovered, isAsc);
-        case 'stateActive': return compare(+a.Active, +b.Active, isAsc);
-        case 'stateDeaths': return compare(+a.Deaths, +b.Deaths, isAsc);
-        default: return 0;
-      }
-    });
-  }
-  sortDistrictData(sort2: Sort, stateCode: any) {
-    let sortDistrict = this.stateData.filter((state: any) => { return state.State_code == stateCode })[0].District
-    const data = this.stateData.slice()
-    const data1 = sortDistrict.slice();
-    if (!sort2.active || sort2.direction === '') {
-      this.stateData = data;
-      return;
-    }
-    let sorted = data1.sort((a: any, b: any) => {
-      const isAsc = sort2.direction === 'asc';
-      switch (sort2.active) {
-        case 'districtName': return compare(a.District, b.District, isAsc);
-        case 'districtConfirmed': return compare(+a.Confirmed, +b.Confirmed, isAsc);
-        case 'districtRecovered': return compare(+a.Recovered, +b.Recovered, isAsc);
-        case 'districtActive': return compare(+a.Active, +b.Active, isAsc);
-        case 'districtDeceased': return compare(+a.Deceased, +b.Deceased, isAsc);
-        default: return 0;
-      }
-    });
-    this.stateData.forEach((state: any) => {
-      if (state.State_code == stateCode) {
-        state.District = sorted;
-      }
-    })
-    return this.stateData;
-  }
+  // closeDistricts() {
+  //   Object.keys(this.hideme).forEach(h => {
+  //     this.hideme[h] = false;
+  //   });
+  // }
+  // sortStateData(sort: Sort) {
+  //   const data = this.stateData.slice();
+  //   if (!sort.active || sort.direction === '') {
+  //     this.stateData = data;
+  //     return;
+  //   }
+  //   this.stateData = data.sort((a: any, b: any) => {
+  //     const isAsc = sort.direction === 'asc';
+  //     switch (sort.active) {
+  //       case 'stateName': return compare(a.State, b.State, isAsc);
+  //       case 'stateConfirmed': return compare(+a.Confirmed, +b.Confirmed, isAsc);
+  //       case 'stateRecovered': return compare(+a.Recovered, +b.Recovered, isAsc);
+  //       case 'stateActive': return compare(+a.Active, +b.Active, isAsc);
+  //       case 'stateDeaths': return compare(+a.Deaths, +b.Deaths, isAsc);
+  //       default: return 0;
+  //     }
+  //   });
+  // }
+  // sortDistrictData(sort2: Sort, stateCode: any) {
+  //   let sortDistrict = this.stateData.filter((state: any) => { return state.State_code == stateCode })[0].District
+  //   const data = this.stateData.slice()
+  //   const data1 = sortDistrict.slice();
+  //   if (!sort2.active || sort2.direction === '') {
+  //     this.stateData = data;
+  //     return;
+  //   }
+  //   let sorted = data1.sort((a: any, b: any) => {
+  //     const isAsc = sort2.direction === 'asc';
+  //     switch (sort2.active) {
+  //       case 'districtName': return compare(a.District, b.District, isAsc);
+  //       case 'districtConfirmed': return compare(+a.Confirmed, +b.Confirmed, isAsc);
+  //       case 'districtRecovered': return compare(+a.Recovered, +b.Recovered, isAsc);
+  //       case 'districtActive': return compare(+a.Active, +b.Active, isAsc);
+  //       case 'districtDeceased': return compare(+a.Deceased, +b.Deceased, isAsc);
+  //       default: return 0;
+  //     }
+  //   });
+  //   this.stateData.forEach((state: any) => {
+  //     if (state.State_code == stateCode) {
+  //       state.District = sorted;
+  //     }
+  //   })
+  //   return this.stateData;
+  // }
 }
 
 
