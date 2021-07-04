@@ -107,6 +107,32 @@
 
 <div class="container">
   <div class="contentWrapper">
+    <div *ngIf="isLoading">
+      <ngx-skeleton-loader class="cardsSkeleton" animation="progress-dark" count="1" [theme]="{ 
+      border: '1px solid white',
+      background : '#c9f3f2'
+    }" appearance="line"></ngx-skeleton-loader>
+      <ngx-skeleton-loader class="cardsSkeleton" animation="progress-dark" count="4" [theme]="{ 
+      'border-radius': '5px',
+      height: '85px',
+      width:'120px',
+      background : '#c9f3f2',
+      border: '1px solid white'
+    }" appearance="circle"></ngx-skeleton-loader>
+      <ngx-skeleton-loader class="cardsSkeleton" animation="progress-dark" count="1" [theme]="{ 
+      border: '1px solid white',
+      height:'100px',
+      background : '#c9f3f2',
+      'margin-top': '10px'
+    }" appearance="line"></ngx-skeleton-loader>
+      <div>
+        <ngx-skeleton-loader class="TablesSkeleton"  animation="progress-dark" count="30" [theme]="{ 
+      border: '1px solid white',
+      background : '#c9f3f2',
+      height:'48px'
+    }" appearance="line"></ngx-skeleton-loader>
+      </div>
+    </div>
     <ng-container *ngIf="!isLoading">
       <div class="covidHeader">
         <div style="font-size: 24px;">INDIA</div>
@@ -123,7 +149,8 @@
           <div class="totalCount">{{indiaData[0].value.total.confirmed|numberFormat}}</div>
         </mat-card>
         <mat-card class="total active">Active
-          <div class="totalCount">{{(indiaData[0].value.total.confirmed - indiaData[0].value.total.recovered)|numberFormat}}</div>
+          <div class="totalCount">{{(indiaData[0].value.total.confirmed -
+            indiaData[0].value.total.recovered)|numberFormat}}</div>
         </mat-card>
         <mat-card class="total recovered">Recovered
           <div class="today recovered">
@@ -211,9 +238,12 @@
           <div class="districtDataWrapper" [hidden]="!hideDistricts[data.state]" matSort #sort2="matSort"
             (matSortChange)="sortDistrictData($event,data.state)" matSortActive="districtConfirmed"
             matSortDirection="desc" matSortStart="desc">
-            <!-- {{data.state}} details<mat-icon>more_horiz</mat-icon> -->
-            <div class="lastUpdated">
-              <mat-icon class="lastUpdatedIcon">av_timer</mat-icon>{{data.value.meta.last_updated | lastUpdated}}
+            <div>
+              <div (click)="navigateToState(data.state)">{{data.state}} details<mat-icon>more_horiz</mat-icon>
+              </div>
+              <div class="lastUpdated">
+                <mat-icon class="lastUpdatedIcon">av_timer</mat-icon>{{data.value.meta.last_updated | lastUpdated}}
+              </div>
             </div>
             <div class="districtHeaderWrapper">
               <div matRipple matRippleColor="#87ebac94" mat-sort-header="districtName" class="name header" disableClear>
@@ -234,7 +264,8 @@
                 <ng-container *ngIf="districtdata.value.total?.confirmed">
                   <div class="confirmedRed">
                     <ng-container *ngIf="districtdata.value.delta?.confirmed">
-                      <mat-icon class="arrowIcon">arrow_upward</mat-icon>{{districtdata.value.delta?.confirmed |numberFormat}}
+                      <mat-icon class="arrowIcon">arrow_upward</mat-icon>{{districtdata.value.delta?.confirmed
+                      |numberFormat}}
                     </ng-container>
                   </div>
                   <div class="confirmedNumber">{{districtdata.value.total?.confirmed |numberFormat}}</div>
@@ -256,7 +287,8 @@
                 <ng-container *ngIf="districtdata.value.total?.recovered">
                   <div class="recoveredGreen">
                     <ng-container *ngIf="districtdata.value.delta?.recovered">
-                      <mat-icon class="arrowIcon">arrow_upward</mat-icon>{{districtdata.value.delta?.recovered |numberFormat}}
+                      <mat-icon class="arrowIcon">arrow_upward</mat-icon>{{districtdata.value.delta?.recovered
+                      |numberFormat}}
                     </ng-container>
                   </div>
                   <div class="recoveredNumber">{{districtdata.value.total?.recovered |numberFormat}}</div>
@@ -269,7 +301,8 @@
                 <ng-container *ngIf="districtdata.value.total?.deceased">
                   <div class="deathsGrey">
                     <ng-container *ngIf="districtdata.value.delta?.deceased">
-                      <mat-icon class="arrowIcon">arrow_upward</mat-icon>{{districtdata.value.delta?.deceased |numberFormat}}
+                      <mat-icon class="arrowIcon">arrow_upward</mat-icon>{{districtdata.value.delta?.deceased
+                      |numberFormat}}
                     </ng-container>
                   </div>
                   <div class="deathsNumber">{{districtdata.value.total?.deceased |numberFormat}}</div>

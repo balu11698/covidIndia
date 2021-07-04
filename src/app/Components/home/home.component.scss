@@ -9,6 +9,10 @@
     margin: 15px 50px;
     overflow-x: auto;
     // padding-bottom: 20px;
+    .cardsSkeleton{
+      display: flex;
+      justify-content: space-between;
+    }
     .covidHeader {
       color: #e77070;
       position: sticky;
@@ -31,7 +35,7 @@
       position: sticky;
       left: 0;
       animation-name: fade;
-      animation-duration: 0.5s;
+      animation-duration: .5s;
       .total {
         display: flex;
         justify-content: space-between;
@@ -70,10 +74,10 @@
       left: 0;
       animation-name: fade;
       animation-duration: 0.5s;
-      animation-delay: 0.5s;
+      // animation-delay: 0.5s;
       -webkit-animation-name: fade;
       -webkit-animation-duration: 0.5s;
-      -webkit-animation-delay: 0.5s;
+      // -webkit-animation-delay: 0.5s;
       animation-fill-mode: both;
       .vaccination1Legend {
         // display: flex;
@@ -157,7 +161,7 @@
       min-width: 600px;
       animation-name: fade;
       animation-duration: 0.5s;
-      animation-delay: 1s;
+      // animation-delay: 1s;
       animation-fill-mode: both;
       .stateWrapper {
         cursor: pointer;
@@ -303,14 +307,14 @@ div {
 // .animation {
 //   // animation: animate 3s ease-in-out;
 // }
-@keyframes example {
-  from {
-    margin-left: -100%;
-  }
-  to {
-    margin-left: 0;
-  }
-}
+// @keyframes example {
+//   from {
+//     margin-left: -100%;
+//   }
+//   to {
+//     margin-left: 0;
+//   }
+// }
 @keyframes progressBar {
   0% {
     width: 0;
@@ -339,7 +343,7 @@ div {
 @keyframes fade {
   0% {
     opacity: 0;
-    transform: translate3d(5px, 50px, 5px);
+    transform: translate3d(-50px, 0px, 0px);
   }
   100% {
     opacity: 1;

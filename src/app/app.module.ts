@@ -18,6 +18,8 @@ import { VaccinationCountPipe } from './pipes/vaccination-count.pipe';
 import { MatCardModule } from '@angular/material/card';
 import { LastUpdatedPipe } from './pipes/last-updated.pipe';
 import { NumberFormatPipe } from './pipes/number-format.pipe';
+import { StateDetailsComponent } from './Components/state-details/state-details.component';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 @NgModule({
   declarations: [
@@ -30,6 +32,7 @@ import { NumberFormatPipe } from './pipes/number-format.pipe';
     VaccinationCountPipe,
     LastUpdatedPipe,
     NumberFormatPipe,
+    StateDetailsComponent,
   ],
   imports: [
     BrowserModule,
@@ -41,7 +44,8 @@ import { NumberFormatPipe } from './pipes/number-format.pipe';
     NgxSpinnerModule,
     MatButtonModule,
     MatRippleModule,
-    MatCardModule
+    MatCardModule,
+    NgxSkeletonLoaderModule
   ],
   providers: [],
   bootstrap: [AppComponent]

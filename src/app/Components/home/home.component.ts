@@ -3,6 +3,7 @@ import { ApiService } from 'src/app/services/api.service';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { MatSort, Sort } from '@angular/material/sort';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { Router } from '@angular/router';
 
 
 
@@ -32,8 +33,10 @@ import { NgxSpinnerService } from 'ngx-spinner';
 })
 
 export class HomeComponent implements OnInit {
-  isLoading = false;
+  isIndiaLoading = false;
+  isSateLoading = false;
   isExpand = false;
+  isLoading=false
   // stateData: any;
   stateData: any[] = [];
   allDistrictData: any;
@@ -119,9 +122,11 @@ export class HomeComponent implements OnInit {
     }]
 
   hideDistricts: any = {}
+
   @ViewChild('sort1') public sort1!: MatSort;
   @ViewChild('sort2') public sort2!: MatSort;
-  constructor(private api: ApiService, private spinner: NgxSpinnerService) { }
+
+  constructor(private api: ApiService, private spinner: NgxSpinnerService,private router:Router) { }
   ngOnInit() {
     this.isLoading = true;
     this.getAllData();
@@ -131,8 +136,8 @@ export class HomeComponent implements OnInit {
     this.spinner.show();
     await this.getStateData();
     // await this.getDataMin();
-    this.isLoading = false;
     this.spinner.hide();
+    this.isLoading=false;
   }
   getStateNames(shortForm: any) {
     return this.stateNames[shortForm]
@@ -146,6 +151,7 @@ export class HomeComponent implements OnInit {
     this.indiaData = this.stateData.filter((data: any) => {
       return data.state == "India";
     })
+    this.isIndiaLoading = false;
     console.log(this.indiaData)
     this.stateData = this.stateData.filter((data: any) => {
       return data.state != "India";
@@ -213,6 +219,10 @@ export class HomeComponent implements OnInit {
       }
     })
     return this.stateData;
+  }
+  navigateToState(stateName:any){
+    this.router.navigate(['State/',stateName])
+    // this.router.navigateByUrl('State/'+stateName.state, { state: { hello: stateName } })
   }
   async getDataMin() {
     console.time("dataMin")
