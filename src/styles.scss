@@ -4,9 +4,15 @@
 // body {
 //   height: 100%;
 // }
+.theme-light{
+ --primary: linear-gradient(to right top, #9fecde, #86dfec);
+}
+.theme-dark{
+  --primary: #161625;
+}
 body {
   margin: 0;
-  background: linear-gradient(to right top, #9fecde, #86dfec);
+  background-color: var(--primary);
 }
 @font-face {
   font-family: "Inter";

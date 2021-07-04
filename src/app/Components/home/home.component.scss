@@ -1,6 +1,8 @@
 .container {
   min-height: 100vh;
   display: flex;
+  background-color: #86dfec;
+  transition: background-color 1s linear;
   .contentWrapper {
     display: flex;
     flex-direction: column;
@@ -22,6 +24,10 @@
       animation-name: fade;
       animation-duration: 0.5s;
       animation-fill-mode: both;
+      ::ng-deep .dateSpinner {
+        height: 25px;
+        width: 25px;
+      }
       .lastUpdated {
         display: flex;
         align-items: center;
@@ -29,7 +35,7 @@
           margin-right: 5px;
         }
       }
-     ::ng-deep .matForm {
+      ::ng-deep .matForm {
         width: 56px;
         .mat-form-field-appearance-outline .mat-form-field-wrapper {
           margin: unset;
@@ -37,8 +43,12 @@
         .mat-form-field-wrapper {
           padding-bottom: unset;
         }
-        .mat-form-field-outline-start ,.mat-form-field-outline-end{
+        .mat-form-field-outline-start,
+        .mat-form-field-outline-end {
           border: unset;
+        }
+        svg{
+          color: #e77070;
         }
       }
     }
@@ -324,6 +334,11 @@
     }
   }
 }
+.container.dark{
+  background-color: #161625;
+  transition: background-color 1s linear;
+  
+}
 @media screen and (max-width: 800px) {
   .container {
     .contentWrapper {
@@ -416,28 +431,28 @@ div {
 //   from {opacity:0;}
 //   to {opacity: 1;}
 // }
-@property --n {
-  syntax: "<integer>";
-  initial-value: 0;
-  inherits: false;
-}
+// @property --n {
+//   syntax: "<integer>";
+//   initial-value: 0;
+//   inherits: false;
+// }
 
-.totalCount1 {
-  animation: animate var(--duration) forwards var(--timing, linear);
-  counter-reset: num var(--n);
-}
-.totalCount1::before {
-  content: counter(num);
-}
+// .totalCount1 {
+//   animation: animate var(--duration) forwards var(--timing, linear);
+//   counter-reset: num var(--n);
+// }
+// .totalCount1::before {
+//   content: counter(num);
+// }
 
-@keyframes animate {
-  from {
-    --n: var(--from);
-  }
-  to {
-    --n: var(--to);
-  }
-}
+// @keyframes animate {
+//   from {
+//     --n: var(--from);
+//   }
+//   to {
+//     --n: var(--to);
+//   }
+// }
 ::-webkit-scrollbar {
   width: 0; /* Remove scrollbar space */
   background: transparent; /* Optional: just make scrollbar invisible */

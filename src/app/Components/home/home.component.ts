@@ -37,14 +37,15 @@ export class HomeComponent implements OnInit {
   isSateLoading = false;
   isExpand = false;
   isLoading = false
+  isDateLoading=false;
   lastUpdatedTime: any;
-  minDate:any;
-  maxDate:any;
+  minDate: any;
+  maxDate: any;
   // stateData: any;
   stateData: any[] = [];
   allDistrictData: any;
   dailyStateData: any;
-  selectedDate:any;
+  selectedDate: any;
   dailyDistrictData: any;
   currentState = 'initial'
   todaysStateData: any;
@@ -97,7 +98,7 @@ export class HomeComponent implements OnInit {
     "LA": "Ladakh",
     "TT": "India"
   }
-
+  isLightTheme =true;
   hideDistricts: any = {}
 
   @ViewChild('sort1') public sort1!: MatSort;
@@ -106,15 +107,15 @@ export class HomeComponent implements OnInit {
   constructor(private api: ApiService, private spinner: NgxSpinnerService, private router: Router) { }
   ngOnInit() {
     this.isLoading = true;
+    this.isDateLoading = true
     this.getAllData();
   }
 
   async getAllData() {
-    this.spinner.show();
     await this.getStateData();
-    await this.getDataMin();
-    this.spinner.hide();
     this.isLoading = false;
+    await this.getDataMin();
+    this.isDateLoading=false;
   }
   getStateNames(shortForm: any) {
     return this.stateNames[shortForm]
@@ -204,16 +205,20 @@ export class HomeComponent implements OnInit {
     console.time("dataMin")
     let data: any = await this.api.fetchDataMin();
     this.dataMin = JSON.parse(data)
+    let first: any = Object.keys(this.dataMin).shift();
+    let last: any = Object.keys(this.dataMin).pop();
+    this.maxDate = new Date(last);
+    this.minDate = new Date(first);
     console.log(this.dataMin)
     console.timeEnd("dataMin")
   }
-  selectedDateChange(e:any){
-    console.log(e.value)
-  }
-  yesterday() {
-    this.stateData = [];
-    let date = "2021-07-02";
-    let keys = this.dataMin[date];
+  selectedDateChange(e: any) {
+    let date = new Date(e.value)
+    let formattedSelectedDate = date.getFullYear() + '-' + (((date.getMonth() + 1) < 10) ? '0' + (date.getMonth()+1) : (date.getMonth() + 1)) + '-' + ((date.getDate() < 10) ? '0' + date.getDate() : date.getDate());
+    console.log(formattedSelectedDate)
+    let keys = this.dataMin[formattedSelectedDate];
+    console.log(keys)
+    this.stateData=[];
     for (let key in keys) {
       this.stateData.push({ state: this.getStateNames(key), value: keys[key] });
     }
@@ -228,13 +233,17 @@ export class HomeComponent implements OnInit {
       }
     }
     this.stateData.sort((a: any, b: any) => {
-      return parseFloat(b.value.total.confirmed) - parseFloat(a.value.total.confirmed)
+      return parseFloat(b.value.total?.confirmed) - parseFloat(a.value.total?.confirmed)
     })
     this.stateData.filter((data: any) => {
       data.value.dis?.sort((a: any, b: any) => {
-        return (parseFloat(b.value.total.confirmed) - parseFloat(a.value.total.confirmed))
+        return (parseFloat(b.value.total?.confirmed) - parseFloat(a.value.total?.confirmed))
       })
     })
+  }
+  setTheme(){
+    this.isLightTheme = (this.isLightTheme  == false) ? true : false;
+    localStorage.setItem('lightTheme',JSON.stringify(this.isLightTheme))
   }
 
   // async getStateData() {

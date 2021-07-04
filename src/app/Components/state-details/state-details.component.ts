@@ -78,23 +78,5 @@ export class StateDetailsComponent implements OnInit {
       this.districtData.push({ district: key, value: keys.districts[key] });
     }
     this.isLoading = false;
-  }
-  report(stateCode: string, stateName: string) {  
-    this.selectedState = null;  
-    this.stateName = stateName; 
-    console.log(this.stateName,"stateName") 
-    // var data = this.stateWiseData[stateCode];  
-    // this.population = (data?.meta?.population == undefined) ? 0 : data?.meta?.population;  
-    // this.totalTested = (data?.total?.tested == undefined) ? 0 : data?.total?.tested;  
-    // this.deltaTested = data?.delta?.tested;  
-    // this.totalConfirmed = (data?.total?.confirmed == undefined) ? 0 : data?.total?.confirmed;  
-    // this.deltaConfirmed = data?.delta?.confirmed;  
-    // this.totalRecovered = (data?.total?.recovered == undefined) ? 0 : data?.total?.recovered;  
-    // this.deltaRecovered = data?.delta?.recovered;  
-    // this.totalDeceased = (data?.total?.deceased == undefined) ? 0 : data?.total?.deceased;  
-    // this.deltaDeceased = data?.delta?.deceased;  
-    // this.totalMigrated = (data?.total?.migrated == undefined) ? 0 : data?.total?.migrated;   
-  }  
-
-
+  } 
 }
