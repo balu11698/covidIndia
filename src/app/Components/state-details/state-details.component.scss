@@ -1,0 +1,227 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  .contentWrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 15px 50px;
+    .covidHeader {
+      color: #e77070;
+      position: sticky;
+      left: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      animation-name: fade;
+      animation-duration: .5s;
+      .lastUpdated {
+        display: flex;
+        align-items: center;
+        .lastUpdatedIcon {
+          margin-right: 5px;
+        }
+      }
+    }
+    .testedWrapper {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      color: #5e2990;
+      margin-bottom: 10px;
+      animation-name: fade;
+      animation-duration: .5s;
+      animation-delay: .1s;
+      animation-fill-mode: both;
+      .population,
+      .tested,
+      .vaccinated {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        .source{
+          margin-left: 5px;
+        }
+        .populationIcon,
+        .testedIcon,
+        .vaccinatedIcon {
+          margin-right: 5px;
+        }
+      }
+    }
+    .totalDataWrapper {
+      display: flex;
+      justify-content: space-between;
+      position: sticky;
+      left: 0;
+      animation-name: fade;
+      animation-duration: 0.5s;
+      animation-delay: .2s;
+      animation-fill-mode: both;
+      .total {
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 10px;
+        .today {
+          display: flex;
+          align-items: center;
+          font-size: 12px;
+          .arrowIcon {
+            height: unset;
+            width: unset;
+            font-size: unset;
+          }
+        }
+        .totalCount {
+          font-size: 16px;
+        }
+      }
+      .total.confirmed {
+        color: #e86b6b;
+      }
+      .total.active {
+        color: #978bee;
+      }
+      .total.recovered {
+        color: #4fb64f;
+      }
+      .total.deaths {
+        color: #636d63;
+      }
+    }
+    .vaccinationWrapper {
+      position: sticky;
+      left: 0;
+      animation-name: fade;
+      animation-duration: 0.5s;
+      animation-delay: 0.3s;
+      -webkit-animation-name: fade;
+      -webkit-animation-duration: 0.5s;
+      -webkit-animation-delay: 0.3s;
+      animation-fill-mode: both;
+      .vaccination1Legend {
+        // display: flex;
+        .vaccinationLabelWrapper {
+          display: flex;
+        }
+      }
+      .vaccination2Legend {
+        // display: flex;
+        margin-bottom: 10px;
+        .vaccinationLabelWrapper {
+          display: flex;
+        }
+      }
+      .progressBar {
+        display: flex;
+        position: relative;
+        background: aliceblue;
+        height: 25px;
+        background: #edc0c0;
+        position: sticky;
+        left: 0;
+        border-radius: 5px;
+        .progressBarValueVaccination1 {
+          height: 100%;
+          position: absolute;
+          display: flex;
+          border-radius: 5px;
+          .progressAnimation {
+            background: #e2aaaae6;
+            background-image: linear-gradient(
+              210deg,
+              #e7868670 25%,
+              transparent 80%,
+              transparent 50%,
+              #fca311 70%,
+              #fca311 75%,
+              transparent 75%,
+              transparent
+            );
+            -webkit-animation: progressBar 1s ease-in-out;
+            -moz-animation: progressBar 1s ease-in-out;
+            animation: progressBar 1s ease-in-out;
+            animation-fill-mode: both;
+            -webkit-animation-fill-mode: both;
+            -moz-animation-fill-mode: both;
+            border-radius: 5px;
+          }
+        }
+        .progressBarValueVaccination2 {
+          position: absolute;
+          height: 100%;
+          display: flex;
+          border-radius: 5px;
+          .progressAnimation {
+            background: #fd808099;
+            background-image: linear-gradient(
+              210deg,
+              #e0515182 25%,
+              transparent 80%,
+              transparent 50%,
+              #fca311 70%,
+              #ff6c6cf2 75%,
+              transparent 75%,
+              transparent
+            );
+            -webkit-animation: progressBar 1s ease-in-out;
+            -moz-animation: progressBar 1s ease-in-out;
+            animation: progressBar 1s ease-in-out;
+            animation-fill-mode: both;
+            -webkit-animation-fill-mode: both;
+            -moz-animation-fill-mode: both;
+            border-radius: 5px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .container {
+    .contentWrapper {
+      margin: 15px;
+      mat-card {
+        padding: 5px;
+      }
+      .totalDataWrapper {
+        .total {
+          .totalCount {
+            font-size: 14px;
+          }
+        }
+      }
+    }
+  }
+}
+@keyframes progressBar {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+@-webkit-keyframes progressBar {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 100%;
+  }
+}
+@keyframes fade {
+  0% {
+    opacity: 0;
+    transform: translate3d(-50px, 0px, 0px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateZ(0);
+  }
+}

@@ -1,6 +1,5 @@
 .container {
   min-height: 100vh;
-  background: linear-gradient(to right top, #9fecde, #86dfec);
   display: flex;
   .contentWrapper {
     display: flex;
@@ -8,8 +7,7 @@
     width: 100%;
     margin: 15px 50px;
     overflow-x: auto;
-    // padding-bottom: 20px;
-    .cardsSkeleton{
+    .cardsSkeleton {
       display: flex;
       justify-content: space-between;
     }
@@ -21,10 +19,53 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 10px;
+      animation-name: fade;
+      animation-duration: 0.5s;
+      animation-fill-mode: both;
       .lastUpdated {
         display: flex;
         align-items: center;
         .lastUpdatedIcon {
+          margin-right: 5px;
+        }
+      }
+     ::ng-deep .matForm {
+        width: 56px;
+        .mat-form-field-appearance-outline .mat-form-field-wrapper {
+          margin: unset;
+        }
+        .mat-form-field-wrapper {
+          padding-bottom: unset;
+        }
+        .mat-form-field-outline-start ,.mat-form-field-outline-end{
+          border: unset;
+        }
+      }
+    }
+    .testedWrapper {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      color: #5e2990;
+      margin-bottom: 10px;
+      animation-name: fade;
+      animation-duration: 0.5s;
+      animation-delay: 0.1s;
+      animation-fill-mode: both;
+      position: sticky;
+      left: 0;
+      .population,
+      .tested,
+      .vaccinated {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        .source {
+          margin-left: 5px;
+        }
+        .populationIcon,
+        .testedIcon,
+        .vaccinatedIcon {
           margin-right: 5px;
         }
       }
@@ -35,7 +76,9 @@
       position: sticky;
       left: 0;
       animation-name: fade;
-      animation-duration: .5s;
+      animation-duration: 0.5s;
+      animation-delay: 0.1s;
+      animation-fill-mode: both;
       .total {
         display: flex;
         justify-content: space-between;
@@ -74,10 +117,10 @@
       left: 0;
       animation-name: fade;
       animation-duration: 0.5s;
-      // animation-delay: 0.5s;
+      animation-delay: 0.2s;
       -webkit-animation-name: fade;
       -webkit-animation-duration: 0.5s;
-      // -webkit-animation-delay: 0.5s;
+      -webkit-animation-delay: 0.2s;
       animation-fill-mode: both;
       .vaccination1Legend {
         // display: flex;
@@ -161,9 +204,28 @@
       min-width: 600px;
       animation-name: fade;
       animation-duration: 0.5s;
-      // animation-delay: 1s;
+      animation-delay: 0.3s;
       animation-fill-mode: both;
       .stateWrapper {
+        cursor: pointer;
+      }
+      .moreDetailsWrapper {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        position: sticky;
+        left: 0;
+        width: fit-content;
+      }
+      .moreDetails {
+        display: flex;
+        align-items: center;
+        background: #edc0c0;
+        width: fit-content;
+        padding: 5px;
+        border-radius: 5px;
+        position: sticky;
+        left: 0;
         cursor: pointer;
       }
       .lastUpdated {
@@ -354,29 +416,28 @@ div {
 //   from {opacity:0;}
 //   to {opacity: 1;}
 // }
-// @property --n {
-//   syntax: "<integer>";
-//   initial-value: 0;
-//   inherits: false;
-// }
+@property --n {
+  syntax: "<integer>";
+  initial-value: 0;
+  inherits: false;
+}
 
-// .totalCount {
-//   animation: animate var(--duration) forwards var(--timing, linear);
-//   counter-reset: num var(--n);
+.totalCount1 {
+  animation: animate var(--duration) forwards var(--timing, linear);
+  counter-reset: num var(--n);
+}
+.totalCount1::before {
+  content: counter(num);
+}
 
-// }
-// .totalCount::before {
-//   content: counter(num);
-// }
-
-// @keyframes animate {
-//   from {
-//     --n: var(--from);
-//   }
-//   to {
-//     --n: var(--to);
-//   }
-// }
+@keyframes animate {
+  from {
+    --n: var(--from);
+  }
+  to {
+    --n: var(--to);
+  }
+}
 ::-webkit-scrollbar {
   width: 0; /* Remove scrollbar space */
   background: transparent; /* Optional: just make scrollbar invisible */

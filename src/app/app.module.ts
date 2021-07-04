@@ -20,6 +20,10 @@ import { LastUpdatedPipe } from './pipes/last-updated.pipe';
 import { NumberFormatPipe } from './pipes/number-format.pipe';
 import { StateDetailsComponent } from './Components/state-details/state-details.component';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   declarations: [
@@ -45,7 +49,11 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
     MatButtonModule,
     MatRippleModule,
     MatCardModule,
-    NgxSkeletonLoaderModule
+    NgxSkeletonLoaderModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   providers: [],
   bootstrap: [AppComponent]

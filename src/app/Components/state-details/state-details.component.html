@@ -1,1 +1,83 @@
-<p>state-details works!</p>
+<div class="container">
+  <div class="contentWrapper">
+    <ng-container *ngIf=!isLoading>
+      <div class="covidHeader">
+        <div style="font-size: 3vh;;">{{state}}</div>
+        <div class="lastUpdated">
+          <mat-icon class="lastUpdatedIcon">av_timer</mat-icon>{{stateData.meta.last_updated | lastUpdated}}
+        </div>
+      </div>
+      <div class="testedWrapper">
+        <div class="population">
+          <mat-icon class="populationIcon">person</mat-icon>Population : {{stateData.meta.population | numberFormat}}
+        </div>
+        <div class="tested">
+          <mat-icon class="testedIcon"> local_hospital</mat-icon>Tested : {{stateData.total.tested|numberFormat}} as of
+          {{stateData.meta.tested.date}} <a class="source" target="blank" matRipple [matRippleUnbounded]=true
+            [href]="stateData.meta.tested.source"> Source</a>
+        </div>
+        <div class="vaccinated">
+          <mat-icon class="vaccinatedIcon">verified_user</mat-icon>Vaccine doses administered :
+          {{(stateData.total.vaccinated1+stateData.total.vaccinated2) | numberFormat}}
+        </div>
+      </div>
+      <div class="totalDataWrapper">
+        <mat-card class="total confirmed">
+          <div>Confirmed</div>
+          <div class="today confirmed">
+            <ng-container *ngIf="stateData?.delta?.confirmed">
+              <mat-icon class="arrowIcon">arrow_upward</mat-icon>{{stateData?.delta?.confirmed | numberFormat}}
+            </ng-container>
+          </div>
+          <div class="totalCount">{{stateData.total.confirmed|numberFormat}}</div>
+        </mat-card>
+        <mat-card class="total active">Active
+          <div class="totalCount">{{(stateData.total.confirmed -
+            stateData.total.recovered)|numberFormat}}</div>
+        </mat-card>
+        <mat-card class="total recovered">Recovered
+          <div class="today recovered">
+            <ng-container *ngIf="stateData?.delta?.recovered">
+              <mat-icon class="arrowIcon">arrow_upward</mat-icon>{{stateData?.delta?.recovered | numberFormat}}
+            </ng-container>
+          </div>
+          <div class="totalCount">{{stateData.total.recovered | numberFormat}}</div>
+        </mat-card>
+        <mat-card class="total deaths">Deaths
+          <div class="today deaths">
+            <ng-container *ngIf="stateData?.delta?.deceased">
+              <mat-icon class="arrowIcon">arrow_upward</mat-icon>{{stateData.delta?.deceased | numberFormat}}
+            </ng-container>
+          </div>
+          <div class="totalCount">{{stateData.total.deceased | numberFormat}}</div>
+        </mat-card>
+      </div>
+      <div class="vaccinationWrapper">
+        <div class="vaccination1Legend">
+          <div class="vaccinationLabelWrapper">
+            <div [ngStyle]="{'width' : 'calc(' + (stateData | vaccinationCount : 'vaccination1') + ' - 3rem)'}"></div>
+            <div class="vaccination1Label">At least one dose {{stateData | vaccinationCount : 'vaccination1'}}</div>
+          </div>
+          <div [ngStyle]="{'margin-left' : stateData | vaccinationCount : 'vaccination1'}">|</div>
+        </div>
+        <div class="progressBar">
+          <span class="progressBarValueVaccination1"
+            [ngStyle]="{'width' : stateData | vaccinationCount : 'vaccination1'}">
+            <span class="progressAnimation"></span>
+          </span>
+          <span class="progressBarValueVaccination2"
+            [ngStyle]="{'width' : stateData | vaccinationCount : 'vaccination2'}">
+            <span class="progressAnimation"></span>
+          </span>
+        </div>
+        <div class="vaccination2Legend">
+          <div [ngStyle]="{'margin-left' : stateData | vaccinationCount : 'vaccination2'}">|</div>
+          <div class="vaccinationLabelWrapper">
+            <div [ngStyle]="{'width' : 'calc(' + (stateData | vaccinationCount : 'vaccination2') + ' - 3rem)'}"></div>
+            <div class="vaccination2Label">Fully Vaccinated {{stateData | vaccinationCount : 'vaccination2'}}</div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

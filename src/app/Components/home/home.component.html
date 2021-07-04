@@ -1,168 +1,92 @@
-<!-- <div class="container">
-  <div class="contentWrapper">
-    <div class="covidHeader">
-      <h2>COVID INDIA</h2>
-    </div>
-    <div class="stateDataWrapper" *ngIf="!isLoading">
-      <div class="stateHeaderWrapper" matSort #sort1="matSort" (matSortChange)="sortStateData($event)"
-        matSortActive="stateConfirmed" matSortDirection="desc" matSortStart="desc">
-        <div matRipple matRippleColor="#87ebac94" mat-sort-header="stateName" class="name header">State/UT</div>
-        <div matRipple matRippleColor="#87ebac94" mat-sort-header="stateConfirmed" arrowPosition='before'
-          class="confirmed header">Confirmed</div>
-        <div matRipple matRippleColor="#87ebac94" mat-sort-header="stateActive" arrowPosition='before'
-          class="active header">Active</div>
-        <div matRipple matRippleColor="#87ebac94" mat-sort-header="stateRecovered" arrowPosition='before'
-          class="recovered header">Recovered</div>
-        <div matRipple matRippleColor="#87ebac94" mat-sort-header="stateDeaths" arrowPosition='before'
-          class="deaths header">Deaths</div>
-      </div>
-      <ng-container class="stateData" *ngFor="let data of stateData;">
-        <div class="stateWrapper" (click)="toggleDistricts(data.State_code)">
-          <div class="name">{{data.State}}</div>
-          <div class="confirmed">
-            <div class="confirmedRed">
-              <ng-container *ngIf="data.State | stateDailyIncrease : todaysStateData :
-              'Confirmed' as count">
-                <mat-icon class="arrowIcon">arrow_upward</mat-icon>{{count}}
-              </ng-container>
-            </div>
-            <div class="confirmedNumber" #animatedDigit>{{data.Confirmed}}</div>
-          </div>
-          <div class="active"> {{data.Active}}</div>
-          <div class="recovered">
-            <div class="recoveredGreen">
-              <ng-container *ngIf="data.State | stateDailyIncrease : todaysStateData :
-              'Recovered' as count">
-                <mat-icon class="arrowIcon">arrow_upward</mat-icon>{{count}}
-              </ng-container>
-            </div>
-            <div class="recoveredNumber">{{data.Recovered}}</div>
-          </div>
-          <div class="deaths">
-            <div class="deathsGrey">
-              <ng-container *ngIf="data.State | stateDailyIncrease : todaysStateData :
-              'Deaths' as count">
-                <mat-icon class="arrowIcon">arrow_upward</mat-icon>{{count}}
-              </ng-container>
-            </div>
-            <div class="deathsNumber">{{data.Deaths}}</div>
-          </div>
-        </div>
-        <div class="animation">
-          <div class="districtDataWrapper" [hidden]="!hideme[data.State_code]" matSort #sort2="matSort"
-            (matSortChange)="sortDistrictData($event,data.State_code)" matSortActive="districtConfirmed"
-            matSortDirection="desc" matSortStart="desc">
-            <div class="districtHeaderWrapper">
-              <div matRipple matRippleColor="#87ebac94" mat-sort-header="districtName" class="name header">District
-              </div>
-              <div matRipple matRippleColor="#87ebac94" mat-sort-header="districtConfirmed" arrowPosition='before'
-                class="confirmed header">Confirmed</div>
-              <div matRipple matRippleColor="#87ebac94" mat-sort-header="districtActive" arrowPosition='before'
-                class="active header">Active</div>
-              <div matRipple matRippleColor="#87ebac94" mat-sort-header="districtRecovered" arrowPosition='before'
-                class="recovered header">Recovered</div>
-              <div matRipple matRippleColor="#87ebac94" mat-sort-header="districtDeceased" arrowPosition='before'
-                class="deaths header">Deaths</div>
-            </div>
-            <div class="districtWrapper" *ngFor="let districtdata of data.District">
-              <div class="name">{{districtdata.District}}</div>
-              <div class="confirmed">
-                <div class="confirmedRed">
-                  <ng-container
-                    *ngIf="districtdata.District | districtDailyIncrease:todaysDistrictData :'Confirmed' as count">
-                    <mat-icon class="arrowIcon">arrow_upward</mat-icon>{{count}}
-                  </ng-container>
-                </div>
-                <div class="confirmedNumber">{{districtdata.Confirmed}}</div>
-              </div>
-              <div class="active">{{districtdata.Active}}</div>
-              <div class="recovered">
-                <div class="recoveredGreen">
-                  <ng-container
-                    *ngIf="districtdata.District | districtDailyIncrease :todaysDistrictData :'Recovered' as count">
-                    <mat-icon class="arrowIcon">arrow_upward</mat-icon>{{count}}
-                  </ng-container>
-                </div>
-                <div class="recoveredNumber">{{districtdata.Recovered}}</div>
-              </div>
-              <div class="deaths">
-                <div class="deathsGrey">
-                  <ng-container
-                    *ngIf="districtdata.District | districtDailyIncrease :todaysDistrictData :'Deaths' as count">
-                    <mat-icon class="arrowIcon">arrow_upward</mat-icon>{{count}}
-                  </ng-container>
-                </div>
-                <div class="deathsNumber">{{districtdata.Deceased}}</div>
-              </div>
-            </div>
-            <div class="end">End of {{data.State}} <mat-icon class="arrowIcon" (click)="closeDistricts()">arrow_upward
-              </mat-icon>
-            </div>
-          </div>
-        </div>
-      </ng-container>
-    </div>
-  </div>
-</div> -->
-
 <div class="container">
   <div class="contentWrapper">
-    <div *ngIf="isLoading">
-      <ngx-skeleton-loader class="cardsSkeleton" animation="progress-dark" count="1" [theme]="{ 
+    <ng-container *ngIf="isLoading">
+      <ngx-skeleton-loader class="headerSkeleton" animation="progress-dark" count="1" [theme]="{ 
       border: '1px solid white',
+      height:'49px',
+      background : '#c9f3f2'
+    }" appearance="line"></ngx-skeleton-loader>
+      <ngx-skeleton-loader class="testedSkeleton" animation="progress-dark" count="1" [theme]="{ 
+      border: '1px solid white',
+      height:'35px',
       background : '#c9f3f2'
     }" appearance="line"></ngx-skeleton-loader>
       <ngx-skeleton-loader class="cardsSkeleton" animation="progress-dark" count="4" [theme]="{ 
       'border-radius': '5px',
-      height: '85px',
-      width:'120px',
+      height: '80px',
+      width:'90px',
       background : '#c9f3f2',
-      border: '1px solid white'
+      border: '1px solid white',
+      margin:'unset'
     }" appearance="circle"></ngx-skeleton-loader>
-      <ngx-skeleton-loader class="cardsSkeleton" animation="progress-dark" count="1" [theme]="{ 
+      <ngx-skeleton-loader class="progressbarSkeleton" animation="progress-dark" count="1" [theme]="{ 
       border: '1px solid white',
       height:'100px',
       background : '#c9f3f2',
       'margin-top': '10px'
     }" appearance="line"></ngx-skeleton-loader>
       <div>
-        <ngx-skeleton-loader class="TablesSkeleton"  animation="progress-dark" count="30" [theme]="{ 
+        <ngx-skeleton-loader class="TablesSkeleton" animation="progress-dark" count="30" [theme]="{ 
       border: '1px solid white',
       background : '#c9f3f2',
       height:'48px'
     }" appearance="line"></ngx-skeleton-loader>
       </div>
-    </div>
+    </ng-container>
     <ng-container *ngIf="!isLoading">
       <div class="covidHeader">
-        <div style="font-size: 24px;">INDIA</div>
+        <div style="font-size: 40px;">INDIA</div>
         <div class="lastUpdated">
-          <mat-icon class="lastUpdatedIcon">av_timer</mat-icon>{{indiaData[0].value.meta.last_updated | lastUpdated}}
+          <mat-icon class="lastUpdatedIcon">av_timer</mat-icon>{{lastUpdatedTime | lastUpdated}}
+        </div>
+        <div>
+          <mat-form-field class="matForm" appearance="outline"  (ngModel)="selectedDate">
+            <input matInput [min]="minDate" [max]="maxDate" (dateChange)="selectedDateChange( $event)" [matDatepicker]="picker">
+            <mat-datepicker-toggle matSuffix [for]="picker" ></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="testedWrapper">
+        <div class="population">
+          <mat-icon class="populationIcon">person</mat-icon>Population : {{indiaData.meta.population | numberFormat}}
+        </div>
+        <div class="tested">
+          <mat-icon class="testedIcon"> local_hospital</mat-icon>Tested : {{indiaData.total.tested|numberFormat}} as of
+          {{indiaData.meta.tested.date}} <a class="source" target="blank" matRipple [matRippleUnbounded]=true
+            [href]="indiaData.meta.tested.source"> Source</a>
+        </div>
+        <div class="vaccinated">
+          <mat-icon class="vaccinatedIcon">verified_user</mat-icon>Vaccine doses administered :
+          {{(indiaData.total.vaccinated1+indiaData.total.vaccinated2) | numberFormat}}
         </div>
       </div>
       <div class="totalDataWrapper">
         <mat-card class="total confirmed">
           <div>Confirmed</div>
           <div class="today confirmed">
-            <mat-icon class="arrowIcon">arrow_upward</mat-icon>{{indiaData[0].value.delta.confirmed|numberFormat}}
+            <mat-icon class="arrowIcon">arrow_upward</mat-icon>{{indiaData.delta.confirmed | numberFormat}}
           </div>
-          <div class="totalCount">{{indiaData[0].value.total.confirmed|numberFormat}}</div>
+          <div class="totalCount">{{indiaData.total.confirmed|numberFormat}}</div>
         </mat-card>
         <mat-card class="total active">Active
-          <div class="totalCount">{{(indiaData[0].value.total.confirmed -
-            indiaData[0].value.total.recovered)|numberFormat}}</div>
+          <div class="totalCount">{{(indiaData.total.confirmed -
+            indiaData.total.recovered)|numberFormat}}</div>
         </mat-card>
         <mat-card class="total recovered">Recovered
           <div class="today recovered">
-            <mat-icon class="arrowIcon">arrow_upward</mat-icon>{{indiaData[0].value.delta.recovered|numberFormat}}
+            <mat-icon class="arrowIcon">arrow_upward</mat-icon>
+            <div class="totalCount"
+              style="--from: 100; --to:{{indiaData.delta.recovered }} ; --duration: 5s; --timing: ease">{{indiaData.delta.recovered | numberFormat }}
+            </div>
           </div>
-          <div class="totalCount">{{indiaData[0].value.total.recovered|numberFormat}}</div>
+          <div class="totalCount">{{indiaData.total.recovered | numberFormat}}</div>
         </mat-card>
         <mat-card class="total deaths">Deaths
           <div class="today deaths">
-            <mat-icon class="arrowIcon">arrow_upward</mat-icon>{{indiaData[0].value.delta.deceased|numberFormat}}
+            <mat-icon class="arrowIcon">arrow_upward</mat-icon>{{indiaData.delta.deceased|numberFormat}}
           </div>
-          <div class="totalCount">{{indiaData[0].value.total.deceased|numberFormat}}</div>
+          <div class="totalCount">{{indiaData.total.deceased|numberFormat}}</div>
         </mat-card>
       </div>
       <div class="vaccinationWrapper">
@@ -238,8 +162,9 @@
           <div class="districtDataWrapper" [hidden]="!hideDistricts[data.state]" matSort #sort2="matSort"
             (matSortChange)="sortDistrictData($event,data.state)" matSortActive="districtConfirmed"
             matSortDirection="desc" matSortStart="desc">
-            <div>
-              <div (click)="navigateToState(data.state)">{{data.state}} details<mat-icon>more_horiz</mat-icon>
+            <div class="moreDetailsWrapper">
+              <div (click)="navigateToState(data.state)" class="moreDetails" matRipple matRippleColor="#e5a0a080">
+                {{data.state}} details<mat-icon>more_vert</mat-icon>
               </div>
               <div class="lastUpdated">
                 <mat-icon class="lastUpdatedIcon">av_timer</mat-icon>{{data.value.meta.last_updated | lastUpdated}}

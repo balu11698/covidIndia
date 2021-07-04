@@ -1,17 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
 
-html,
-body {
-  height: 100%;
-}
+// html,
+// body {
+//   height: 100%;
+// }
 body {
   margin: 0;
+  background: linear-gradient(to right top, #9fecde, #86dfec);
 }
 @font-face {
-  font-family: "Poppins";
+  font-family: "Inter";
   src: url(/assets/Fonts/Inter-SemiBold.ttf) format("truetype");
   font-weight: 300;
 }
 * {
-  font-family: "Poppins";
+  font-family: "Inter";
+  font-size: 14px;
 }

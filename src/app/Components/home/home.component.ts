@@ -36,11 +36,15 @@ export class HomeComponent implements OnInit {
   isIndiaLoading = false;
   isSateLoading = false;
   isExpand = false;
-  isLoading=false
+  isLoading = false
+  lastUpdatedTime: any;
+  minDate:any;
+  maxDate:any;
   // stateData: any;
   stateData: any[] = [];
   allDistrictData: any;
   dailyStateData: any;
+  selectedDate:any;
   dailyDistrictData: any;
   currentState = 'initial'
   todaysStateData: any;
@@ -93,40 +97,13 @@ export class HomeComponent implements OnInit {
     "LA": "Ladakh",
     "TT": "India"
   }
-  chartData = [
-    {
-      "name": "Germany",
-      "series": [
-        {
-          "name": "2010",
-          "value": 40632,
-          "extra": {
-            "code": "de"
-          }
-        },
-        {
-          "name": "2000",
-          "value": 36953,
-          "extra": {
-            "code": "de"
-          }
-        },
-        {
-          "name": "1990",
-          "value": 31476,
-          "extra": {
-            "code": "de"
-          }
-        }
-      ]
-    }]
 
   hideDistricts: any = {}
 
   @ViewChild('sort1') public sort1!: MatSort;
   @ViewChild('sort2') public sort2!: MatSort;
 
-  constructor(private api: ApiService, private spinner: NgxSpinnerService,private router:Router) { }
+  constructor(private api: ApiService, private spinner: NgxSpinnerService, private router: Router) { }
   ngOnInit() {
     this.isLoading = true;
     this.getAllData();
@@ -135,9 +112,9 @@ export class HomeComponent implements OnInit {
   async getAllData() {
     this.spinner.show();
     await this.getStateData();
-    // await this.getDataMin();
+    await this.getDataMin();
     this.spinner.hide();
-    this.isLoading=false;
+    this.isLoading = false;
   }
   getStateNames(shortForm: any) {
     return this.stateNames[shortForm]
@@ -148,9 +125,8 @@ export class HomeComponent implements OnInit {
     for (let key in keys) {
       this.stateData.push({ state: this.getStateNames(key), value: keys[key] });
     }
-    this.indiaData = this.stateData.filter((data: any) => {
-      return data.state == "India";
-    })
+    this.indiaData = keys['TT'];
+    this.lastUpdatedTime = this.indiaData.meta.last_updated;
     this.isIndiaLoading = false;
     console.log(this.indiaData)
     this.stateData = this.stateData.filter((data: any) => {
@@ -220,15 +196,45 @@ export class HomeComponent implements OnInit {
     })
     return this.stateData;
   }
-  navigateToState(stateName:any){
-    this.router.navigate(['State/',stateName])
+  navigateToState(stateName: any) {
+    this.router.navigate(['State/', stateName])
     // this.router.navigateByUrl('State/'+stateName.state, { state: { hello: stateName } })
   }
   async getDataMin() {
     console.time("dataMin")
-    this.dataMin = await this.api.fetchDataMin();
-    console.log(JSON.parse(this.dataMin))
+    let data: any = await this.api.fetchDataMin();
+    this.dataMin = JSON.parse(data)
+    console.log(this.dataMin)
     console.timeEnd("dataMin")
+  }
+  selectedDateChange(e:any){
+    console.log(e.value)
+  }
+  yesterday() {
+    this.stateData = [];
+    let date = "2021-07-02";
+    let keys = this.dataMin[date];
+    for (let key in keys) {
+      this.stateData.push({ state: this.getStateNames(key), value: keys[key] });
+    }
+    this.indiaData = keys['TT'];
+    this.stateData = this.stateData.filter((data: any) => {
+      return data.state != "India";
+    })
+    for (let key1 in this.stateData) {
+      this.stateData[key1].value.dis = [];
+      for (let keys2 in this.stateData[key1].value.districts) {
+        this.stateData[key1].value.dis.push({ district: keys2, value: this.stateData[key1].value.districts[keys2] });
+      }
+    }
+    this.stateData.sort((a: any, b: any) => {
+      return parseFloat(b.value.total.confirmed) - parseFloat(a.value.total.confirmed)
+    })
+    this.stateData.filter((data: any) => {
+      data.value.dis?.sort((a: any, b: any) => {
+        return (parseFloat(b.value.total.confirmed) - parseFloat(a.value.total.confirmed))
+      })
+    })
   }
 
   // async getStateData() {
