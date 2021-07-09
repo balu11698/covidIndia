@@ -4,15 +4,26 @@
 // body {
 //   height: 100%;
 // }
-.theme-light{
- --primary: linear-gradient(to right top, #9fecde, #86dfec);
+.theme-light {
+  --backgroundColor: linear-gradient(to right top, #9fecde, #86dfec);
+  --textColor: black;
+  --tableColumnHeader: #a6f4d1;
+  --tableRowHeader: #a6eff4;
+  --tableRowDetails: #c5f0f4;
+  --cardsColor: white;
 }
-.theme-dark{
-  --primary: #161625;
+.theme-dark {
+  --backgroundColor: #161625;
+  --textColor: #d5d5d5;
+  --tableColumnHeader: #444475;
+  --tableRowHeader: #575773;
+  --tableRowDetails: #3e3e52;
+  --cardsColor: #3e3e52;
 }
 body {
   margin: 0;
-  background-color: var(--primary);
+  background: var(--backgroundColor);
+  color: var(--textColor);
 }
 @font-face {
   font-family: "Inter";

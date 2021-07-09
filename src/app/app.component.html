@@ -1,3 +1,16 @@
 <!-- <ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type = "ball-zig-zag" [fullScreen] = "true"><p style="color: white" > Loading... </p></ngx-spinner> -->
-
+<div class="header">
+  <div class="covidHeaderWrapper">
+    <img class="covidImage" src="./../assets/covid-19.svg" >
+    <div class="covidHeaderName">COVID-19</div>
+  </div>
+  <div (click)="setTheme()">
+    <ng-container *ngIf="theme == 'theme-dark'">
+      <button mat-button color="primary"><mat-icon class="themeIcon light">wb_sunny</mat-icon></button>
+    </ng-container>
+    <ng-container *ngIf="theme == 'theme-light' || !theme">
+      <button mat-button><mat-icon class="themeIcon dark">brightness_3</mat-icon></button>
+    </ng-container>
+  </div>
+</div>
 <router-outlet></router-outlet>

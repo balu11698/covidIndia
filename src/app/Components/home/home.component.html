@@ -1,4 +1,4 @@
-<div [ngClass]="('container' + ' ' + (isLightTheme ? '' : 'dark'))">
+<div class="container">
   <div class="contentWrapper">
     <ng-container *ngIf="isLoading">
       <ngx-skeleton-loader class="headerSkeleton" animation="progress-dark" count="1" [theme]="{ 
@@ -46,20 +46,12 @@
           <div>
             <mat-form-field class="matForm" appearance="outline" (ngModel)="selectedDate">
               <input matInput [min]="minDate" [max]="maxDate" (dateChange)="selectedDateChange( $event)"
-                [matDatepicker]="picker">
+                [matDatepicker]="picker" hidden >
               <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
               <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
           </div>
         </ng-container>
-        <div (click)="setTheme()">
-          <ng-container *ngIf="!isLightTheme">
-            <mat-icon>wb_sunny</mat-icon>
-          </ng-container>
-          <ng-container *ngIf="isLightTheme">
-            <mat-icon>brightness_3</mat-icon>
-          </ng-container>
-        </div>
       </div>
       <div class="testedWrapper">
         <div class="population">
@@ -138,17 +130,17 @@
       <div class="stateDataWrapper">
         <div class="stateHeaderWrapper" matSort #sort1="matSort" (matSortChange)="sortStateData($event)"
           matSortActive="stateConfirmed" matSortDirection="desc" matSortStart="desc">
-          <div matRipple matRippleColor="#87ebac94" mat-sort-header="stateName" class="name header" disableClear>
+          <div matRipple mat-sort-header="stateName" class="name header" disableClear>
             State/UT
           </div>
-          <div matRipple matRippleColor="#87ebac94" mat-sort-header="stateConfirmed" arrowPosition='before'
-            class="confirmed header" disableClear>Confirmed</div>
-          <div matRipple matRippleColor="#87ebac94" mat-sort-header="stateActive" arrowPosition='before'
-            class="active header" disableClear>Active</div>
-          <div matRipple matRippleColor="#87ebac94" mat-sort-header="stateRecovered" arrowPosition='before'
-            class="recovered header" disableClear>Recovered</div>
-          <div matRipple matRippleColor="#87ebac94" mat-sort-header="stateDeaths" arrowPosition='before'
-            class="deaths header" disableClear>Deaths</div>
+          <div matRipple mat-sort-header="stateConfirmed" arrowPosition='before' class="confirmed header" disableClear>
+            Confirmed</div>
+          <div matRipple mat-sort-header="stateActive" arrowPosition='before' class="active header" disableClear>Active
+          </div>
+          <div matRipple mat-sort-header="stateRecovered" arrowPosition='before' class="recovered header" disableClear>
+            Recovered</div>
+          <div matRipple mat-sort-header="stateDeaths" arrowPosition='before' class="deaths header" disableClear>Deaths
+          </div>
         </div>
         <ng-container *ngFor="let data of stateData; let i=index">
           <div class="stateWrapper" (click)="toggleDistricts(data.state)">
@@ -211,17 +203,17 @@
               </div>
             </div>
             <div class="districtHeaderWrapper">
-              <div matRipple matRippleColor="#87ebac94" mat-sort-header="districtName" class="name header" disableClear>
+              <div matRipple mat-sort-header="districtName" class="name header" disableClear>
                 District
               </div>
-              <div matRipple matRippleColor="#87ebac94" mat-sort-header="districtConfirmed" arrowPosition='before'
-                class="confirmed header" disableClear>Confirmed</div>
-              <div matRipple matRippleColor="#87ebac94" mat-sort-header="districtActive" arrowPosition='before'
-                class="active header" disableClear>Active</div>
-              <div matRipple matRippleColor="#87ebac94" mat-sort-header="districtRecovered" arrowPosition='before'
-                class="recovered header" disableClear>Recovered</div>
-              <div matRipple matRippleColor="#87ebac94" mat-sort-header="districtDeceased" arrowPosition='before'
-                class="deaths header" disableClear>Deaths</div>
+              <div matRipple mat-sort-header="districtConfirmed" arrowPosition='before' class="confirmed header"
+                disableClear>Confirmed</div>
+              <div matRipple mat-sort-header="districtActive" arrowPosition='before' class="active header" disableClear>
+                Active</div>
+              <div matRipple mat-sort-header="districtRecovered" arrowPosition='before' class="recovered header"
+                disableClear>Recovered</div>
+              <div matRipple mat-sort-header="districtDeceased" arrowPosition='before' class="deaths header"
+                disableClear>Deaths</div>
             </div>
             <div class="districtWrapper" *ngFor="let districtdata of data.value.dis">
               <div class="name">{{districtdata.district}}</div>

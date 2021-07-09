@@ -98,7 +98,7 @@ export class HomeComponent implements OnInit {
     "LA": "Ladakh",
     "TT": "India"
   }
-  isLightTheme =true;
+
   hideDistricts: any = {}
 
   @ViewChild('sort1') public sort1!: MatSort;
@@ -199,7 +199,6 @@ export class HomeComponent implements OnInit {
   }
   navigateToState(stateName: any) {
     this.router.navigate(['State/', stateName])
-    // this.router.navigateByUrl('State/'+stateName.state, { state: { hello: stateName } })
   }
   async getDataMin() {
     console.time("dataMin")
@@ -241,10 +240,7 @@ export class HomeComponent implements OnInit {
       })
     })
   }
-  setTheme(){
-    this.isLightTheme = (this.isLightTheme  == false) ? true : false;
-    localStorage.setItem('lightTheme',JSON.stringify(this.isLightTheme))
-  }
+
 
   // async getStateData() {
   //   let untrimmedStateData: any = await this.api.fetchStateData();
