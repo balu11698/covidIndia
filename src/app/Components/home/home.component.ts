@@ -12,10 +12,10 @@ import { Router } from '@angular/router';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
   animations: [
-    trigger('detailExpand', [
-      state('collapsed', style({ height: '0px', minHeight: '0' })),
-      state('expanded', style({ height: '*' })),
-      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    trigger('openClose', [
+      state('open', style({ height: '*',opacity:0 })),
+      state('close', style({ height: '0px',opacity:1 })),
+      transition('open <=> close', animate('1s')),
     ]),
     // [
     //   trigger('animate',[
@@ -37,11 +37,12 @@ export class HomeComponent implements OnInit {
   isSateLoading = false;
   isExpand = false;
   isLoading = false
-  isDateLoading=false;
-  lastUpdatedTime: any;
   minDate: any;
   maxDate: any;
-  // stateData: any;
+  isOpen = true;
+  latestUpdates : any;
+  isLatestUpdates :boolean = false;
+  date = "";
   stateData: any[] = [];
   allDistrictData: any;
   dailyStateData: any;
@@ -107,27 +108,23 @@ export class HomeComponent implements OnInit {
   constructor(private api: ApiService, private spinner: NgxSpinnerService, private router: Router) { }
   ngOnInit() {
     this.isLoading = true;
-    this.isDateLoading = true
     this.getAllData();
   }
 
   async getAllData() {
-    await this.getStateData();
+    await Promise.all([this.getStateData(),this.getTimeSeriesData(),this.getLogs()]);
     this.isLoading = false;
-    await this.getDataMin();
-    this.isDateLoading=false;
   }
   getStateNames(shortForm: any) {
     return this.stateNames[shortForm]
   }
   async getStateData() {
-    let data: any = await this.api.fetchStateData1();
+    let data: any = await this.api.fetchStateData(this.date);
     let keys: any = JSON.parse(data);
     for (let key in keys) {
       this.stateData.push({ state: this.getStateNames(key), value: keys[key] });
     }
     this.indiaData = keys['TT'];
-    this.lastUpdatedTime = this.indiaData.meta.last_updated;
     this.isIndiaLoading = false;
     console.log(this.indiaData)
     this.stateData = this.stateData.filter((data: any) => {
@@ -151,7 +148,21 @@ export class HomeComponent implements OnInit {
       this.hideDistricts[e.state] = false;
     });
     console.log(this.stateData)
-
+  }
+  async getTimeSeriesData() {
+    console.time("timeseries")
+    let data: any = await this.api.fetchTimeSeriesData();
+    let dates = Object.keys(JSON.parse(data)['TT']['dates']);
+    let first: any = dates.shift();
+    let last: any = dates.pop();
+    this.maxDate = new Date(last);
+    this.minDate = new Date(first);
+    console.timeEnd("timeseries")
+  }
+  async getLogs(){
+    let logs:any = await this.api.fetchLogs();
+    this.latestUpdates = (JSON.parse(logs).slice(-5)).reverse();  
+    console.log(this.latestUpdates)
   }
   sortStateData(sort: Sort) {
     const data = this.stateData.slice();
@@ -204,20 +215,19 @@ export class HomeComponent implements OnInit {
     console.time("dataMin")
     let data: any = await this.api.fetchDataMin();
     this.dataMin = JSON.parse(data)
-    let first: any = Object.keys(this.dataMin).shift();
-    let last: any = Object.keys(this.dataMin).pop();
-    this.maxDate = new Date(last);
-    this.minDate = new Date(first);
     console.log(this.dataMin)
     console.timeEnd("dataMin")
   }
-  selectedDateChange(e: any) {
+  async selectedDateChange(e: any) {
     let date = new Date(e.value)
-    let formattedSelectedDate = date.getFullYear() + '-' + (((date.getMonth() + 1) < 10) ? '0' + (date.getMonth()+1) : (date.getMonth() + 1)) + '-' + ((date.getDate() < 10) ? '0' + date.getDate() : date.getDate());
-    console.log(formattedSelectedDate)
-    let keys = this.dataMin[formattedSelectedDate];
-    console.log(keys)
-    this.stateData=[];
+    let formattedMaxDate = this.formatDate(this.maxDate);
+    let formattedSelectedDate = this.formatDate(date);
+    this.selectedDate = (formattedMaxDate == formattedSelectedDate) ? '' : formattedSelectedDate
+    console.log(formattedSelectedDate, formattedMaxDate)
+    let selectedDateData: any = await this.api.fetchStateData(this.selectedDate)
+    console.log(JSON.parse(selectedDateData), "selectedDateData")
+    let keys = JSON.parse(selectedDateData)
+    this.stateData = [];
     for (let key in keys) {
       this.stateData.push({ state: this.getStateNames(key), value: keys[key] });
     }
@@ -240,6 +250,13 @@ export class HomeComponent implements OnInit {
       })
     })
   }
+  formatDate(date: any) {
+    return date.getFullYear() + '-' + (((date.getMonth() + 1) < 10) ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1)) + '-' + ((date.getDate() < 10) ? '0' + date.getDate() : date.getDate());
+  }
+  toggleLatestUpdates(){
+    this.isLatestUpdates = (this.isLatestUpdates == true) ? false : true;
+    this.isOpen = !this.isOpen;
+  }
 
 
   // async getStateData() {
@@ -254,71 +271,71 @@ export class HomeComponent implements OnInit {
   //   });
   // }
 
-  async getDistrictData() {
-    this.allDistrictData = await this.api.fetchDistrictData();
-    // this.allDistrictData = this.allDistrictData.filter((data:any)=>{
-    //   return data.District!="Unknown";
-    // })  
-  }
+  // async getDistrictData() {
+  //   this.allDistrictData = await this.api.fetchDistrictData();
+  //   // this.allDistrictData = this.allDistrictData.filter((data:any)=>{
+  //   //   return data.District!="Unknown";
+  //   // })  
+  // }
 
-  async getDailyStateData() {
-    console.time("dailyState");
-    this.dailyStateData = await this.api.fetchStateDailyData();
-    let today = new Date();
-    let yesterday = new Date();
-    yesterday.setDate(today.getDate() - 1);
-    let todayDate = today.getFullYear().toString() + '-' + ((today.getMonth() + 1 < 10) ? ('0' + (today.getMonth() + 1)) : (today.getMonth() + 1)).toString() + '-' + ((today.getDate() < 10) ? ('0' + today.getDate()) : today.getDate()).toString();
-    let yesterdaysDate = yesterday.getFullYear().toString() + '-' + ((yesterday.getMonth() + 1 < 10) ? ('0' + (yesterday.getMonth() + 1)) : (yesterday.getMonth() + 1)).toString() + '-' + ((yesterday.getDate() < 10) ? ('0' + yesterday.getDate()) : yesterday.getDate()).toString();
-    this.todaysStateData = this.dailyStateData.filter((data: any) => {
-      return data.Date == todayDate || data.Date == yesterdaysDate;
-    })
-    console.log(this.todaysStateData)
-    console.timeEnd("dailyState");
-  }
-  async getDailyDistrictData() {
-    console.time("dailyDistrict");
-    this.dailyDistrictData = await this.api.fetchDistrictDailyData();
-    let today = new Date();
-    let yesterday = new Date();
-    yesterday.setDate(today.getDate() - 1);
-    let todayDate = today.getFullYear().toString() + '-' + ((today.getMonth() + 1 < 10) ? ('0' + (today.getMonth() + 1)) : (today.getMonth() + 1)).toString() + '-' + ((today.getDate() < 10) ? ('0' + today.getDate()) : today.getDate()).toString();
-    let yesterdaysDate = yesterday.getFullYear().toString() + '-' + ((yesterday.getMonth() + 1 < 10) ? ('0' + (yesterday.getMonth() + 1)) : (yesterday.getMonth() + 1)).toString() + '-' + ((yesterday.getDate() < 10) ? ('0' + yesterday.getDate()) : yesterday.getDate()).toString();
-    // let x = [...this.dailyDistrictData].reverse();
-    this.todaysDistrictData = this.dailyDistrictData.filter((data: any) => {
-      return data.Date == todayDate || data.Date == yesterdaysDate;
-    })
-    // x.filter((data: any) => {
-    //   if(data.Date == todayDate || data.Date == yesterdaysDate){
-    //     this.todaysDistrictData.push(data)
-    //   }
-    // })
-    // x.some((data:any) =>{
-    //   if(data.Date == todayDate){
-    //     this.todaysDistrictData.push(data);
-    //     // console.log(data)
-    //    }
-    // })
-    console.log(this.todaysDistrictData, "today")
-    console.timeEnd("dailyDistrict");
-  }
+  // async getDailyStateData() {
+  //   console.time("dailyState");
+  //   this.dailyStateData = await this.api.fetchStateDailyData();
+  //   let today = new Date();
+  //   let yesterday = new Date();
+  //   yesterday.setDate(today.getDate() - 1);
+  //   let todayDate = today.getFullYear().toString() + '-' + ((today.getMonth() + 1 < 10) ? ('0' + (today.getMonth() + 1)) : (today.getMonth() + 1)).toString() + '-' + ((today.getDate() < 10) ? ('0' + today.getDate()) : today.getDate()).toString();
+  //   let yesterdaysDate = yesterday.getFullYear().toString() + '-' + ((yesterday.getMonth() + 1 < 10) ? ('0' + (yesterday.getMonth() + 1)) : (yesterday.getMonth() + 1)).toString() + '-' + ((yesterday.getDate() < 10) ? ('0' + yesterday.getDate()) : yesterday.getDate()).toString();
+  //   this.todaysStateData = this.dailyStateData.filter((data: any) => {
+  //     return data.Date == todayDate || data.Date == yesterdaysDate;
+  //   })
+  //   console.log(this.todaysStateData)
+  //   console.timeEnd("dailyState");
+  // }
+  // async getDailyDistrictData() {
+  //   console.time("dailyDistrict");
+  //   this.dailyDistrictData = await this.api.fetchDistrictDailyData();
+  //   let today = new Date();
+  //   let yesterday = new Date();
+  //   yesterday.setDate(today.getDate() - 1);
+  //   let todayDate = today.getFullYear().toString() + '-' + ((today.getMonth() + 1 < 10) ? ('0' + (today.getMonth() + 1)) : (today.getMonth() + 1)).toString() + '-' + ((today.getDate() < 10) ? ('0' + today.getDate()) : today.getDate()).toString();
+  //   let yesterdaysDate = yesterday.getFullYear().toString() + '-' + ((yesterday.getMonth() + 1 < 10) ? ('0' + (yesterday.getMonth() + 1)) : (yesterday.getMonth() + 1)).toString() + '-' + ((yesterday.getDate() < 10) ? ('0' + yesterday.getDate()) : yesterday.getDate()).toString();
+  //   // let x = [...this.dailyDistrictData].reverse();
+  //   this.todaysDistrictData = this.dailyDistrictData.filter((data: any) => {
+  //     return data.Date == todayDate || data.Date == yesterdaysDate;
+  //   })
+  //   // x.filter((data: any) => {
+  //   //   if(data.Date == todayDate || data.Date == yesterdaysDate){
+  //   //     this.todaysDistrictData.push(data)
+  //   //   }
+  //   // })
+  //   // x.some((data:any) =>{
+  //   //   if(data.Date == todayDate){
+  //   //     this.todaysDistrictData.push(data);
+  //   //     // console.log(data)
+  //   //    }
+  //   // })
+  //   console.log(this.todaysDistrictData, "today")
+  //   console.timeEnd("dailyDistrict");
+  // }
 
-  async totalData() {
-    console.time('totalData')
-    this.stateData.forEach((state: any) => {
-      state.District = [];
-      this.allDistrictData.forEach((disctrict: any) => {
-        if (state.State_code == disctrict.State_Code) {
-          state.District.push(disctrict)
-        }
-      })
-    });
-    this.stateData.filter((data: any) => {
-      data.District?.sort((a: any, b: any) => {
-        return (parseFloat(b.Confirmed) - parseFloat(a.Confirmed))
-      })
-    })
-    console.timeEnd('totalData')
-  }
+  // async totalData() {
+  //   console.time('totalData')
+  //   this.stateData.forEach((state: any) => {
+  //     state.District = [];
+  //     this.allDistrictData.forEach((disctrict: any) => {
+  //       if (state.State_code == disctrict.State_Code) {
+  //         state.District.push(disctrict)
+  //       }
+  //     })
+  //   });
+  //   this.stateData.filter((data: any) => {
+  //     data.District?.sort((a: any, b: any) => {
+  //       return (parseFloat(b.Confirmed) - parseFloat(a.Confirmed))
+  //     })
+  //   })
+  //   console.timeEnd('totalData')
+  // }
 
   toggleDistricts(item: any) {
     if (this.hideDistricts[item] == false) {

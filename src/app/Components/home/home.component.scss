@@ -17,12 +17,17 @@
       color: #e77070;
       position: sticky;
       left: 0;
+    }
+    .updateDetailsWrapper {
+      color: #e77070;
+      position: sticky;
+      left: 0;
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 10px;
-      animation-name: fade;
-      animation-duration: 0.5s;
+      animation-name: fade-side;
+      animation-duration: 0.75s;
       animation-fill-mode: both;
       ::ng-deep .dateSpinner {
         height: 25px;
@@ -35,8 +40,19 @@
           margin-right: 5px;
         }
       }
+      .LatestUpdatesToggle {
+        cursor: pointer;
+        margin-right: 5px;
+      }
+    }
+    .calendar {
+      display: flex;
+      justify-content: flex-end;
+      animation-name: fade-side;
+      animation-duration: 0.75s;
+      animation-fill-mode: forwards;
       ::ng-deep .matForm {
-        width: 56px;
+        width: 34px;
         .mat-form-field-appearance-outline .mat-form-field-wrapper {
           margin: unset;
         }
@@ -51,9 +67,41 @@
         .mat-form-field-flex {
           padding: unset;
         }
+        .mat-form-field-suffix {
+          position: unset;
+        }
 
         svg {
           color: #e77070;
+        }
+      }
+    }
+    .selectedDate {
+      color: #e77070;
+      margin-bottom: 10px;
+    }
+    .latestUpdatesWrapper {
+      // animation-name: fade-side;
+      // animation-duration: 1s;
+      // animation-delay: 0.2s;
+      // animation-fill-mode: both;
+      .latestUpdates {
+        background: var(--tableRowDetails);
+        animation-name: fade-down;
+        animation-duration: 0.15s;
+        animation-fill-mode: both;
+        margin-bottom: 10px;
+        padding: 5px 10px;
+        border-radius: 5px;
+        .latestUpdateTime {
+          font-size: 12px;
+          opacity: 0.8;
+          margin-bottom: 4px;
+        }
+      }
+      @for $i from 1 through 5 {
+        .latestUpdates:nth-child(#{$i}n) {
+          animation-delay: #{$i * 0.15}s;
         }
       }
     }
@@ -63,8 +111,8 @@
       justify-content: space-between;
       color: #5e2990;
       margin-bottom: 10px;
-      animation-name: fade;
-      animation-duration: 0.5s;
+      animation-name: fade-side;
+      animation-duration: 0.75s;
       animation-delay: 0.1s;
       animation-fill-mode: both;
       position: sticky;
@@ -90,8 +138,8 @@
       justify-content: space-between;
       position: sticky;
       left: 0;
-      animation-name: fade;
-      animation-duration: 0.5s;
+      animation-name: fade-side;
+      animation-duration: 0.75s;
       animation-delay: 0.1s;
       animation-fill-mode: both;
       .total {
@@ -131,11 +179,11 @@
     .vaccinationWrapper {
       position: sticky;
       left: 0;
-      animation-name: fade;
-      animation-duration: 0.5s;
+      animation-name: fade-side;
+      animation-duration: 0.75s;
       animation-delay: 0.2s;
-      -webkit-animation-name: fade;
-      -webkit-animation-duration: 0.5s;
+      -webkit-animation-name: fade-side;
+      -webkit-animation-duration: 0.75s;
       -webkit-animation-delay: 0.2s;
       animation-fill-mode: both;
       .vaccination1Legend {
@@ -177,9 +225,10 @@
               transparent 75%,
               transparent
             );
-            -webkit-animation: progressBar 1s ease-in-out;
-            -moz-animation: progressBar 1s ease-in-out;
-            animation: progressBar 1s ease-in-out;
+            -webkit-animation: progressBar 0.5s ease-in-out;
+            -moz-animation: progressBar 0.5s ease-in-out;
+            animation: progressBar 0.5s ease-in-out;
+            animation-delay: 0.75s;
             animation-fill-mode: both;
             -webkit-animation-fill-mode: both;
             -moz-animation-fill-mode: both;
@@ -203,9 +252,10 @@
               transparent 75%,
               transparent
             );
-            -webkit-animation: progressBar 1s ease-in-out;
-            -moz-animation: progressBar 1s ease-in-out;
-            animation: progressBar 1s ease-in-out;
+            -webkit-animation: progressBar 0.5s ease-in-out;
+            -moz-animation: progressBar 0.5s ease-in-out;
+            animation: progressBar 0.5s ease-in-out;
+            animation-delay: 1.25s;
             animation-fill-mode: both;
             -webkit-animation-fill-mode: both;
             -moz-animation-fill-mode: both;
@@ -218,8 +268,8 @@
       width: 100%;
       z-index: 2;
       min-width: 600px;
-      animation-name: fade;
-      animation-duration: 0.5s;
+      animation-name: fade-side;
+      animation-duration: 0.75s;
       animation-delay: 0.3s;
       animation-fill-mode: both;
       .stateWrapper {
@@ -424,14 +474,24 @@ div {
     opacity: 1;
   }
 }
-@keyframes fade {
+@keyframes fade-side {
   0% {
     opacity: 0;
     transform: translate3d(-50px, 0px, 0px);
   }
   100% {
     opacity: 1;
-    transform: translateZ(0);
+    // transform: translateZ(0);
+  }
+}
+@keyframes fade-down {
+  0% {
+    opacity: 0;
+    transform: translate3d(0px, -20px, 0px);
+  }
+  100% {
+    opacity: 1;
+    // transform: translateZ(0);
   }
 }
 // @keyframes animate {

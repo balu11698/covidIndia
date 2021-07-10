@@ -61,6 +61,7 @@ export class StateDetailsComponent implements OnInit {
   totalConfirmed: any;
   deltaConfirmed: any;
   stateName: any;
+  date = "";
   constructor(private activatedRoute: ActivatedRoute, private router: Router, private api: ApiService) { }
 
   ngOnInit(): void {
@@ -70,7 +71,7 @@ export class StateDetailsComponent implements OnInit {
   }
   async getDisctricData() {
     let stateShortForm:any = Object.keys(this.stateNames).find(key => this.stateNames[key] === this.state);
-    let data: any = await this.api.fetchStateData1();
+    let data: any = await this.api.fetchStateData(this.date);
     let keys: any = JSON.parse(data)[stateShortForm];
     console.log(keys)
     this.stateData = keys

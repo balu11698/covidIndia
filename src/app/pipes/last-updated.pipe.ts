@@ -10,7 +10,6 @@ export class LastUpdatedPipe implements PipeTransform {
     let lastupdate = new Date(value)
     let difference = Math.abs(currentTime.getTime() - lastupdate.getTime())
     let hourDifference: any = (difference / 1000 / 3600);
-    let xxx = (hourDifference > 60) ? (hourDifference / 60) : 0
     let hours = parseInt(hourDifference)
     let minutes = parseInt(((hourDifference % 1) * 60).toString())
     let lastUpdateTime = (hours != 0) ?

@@ -3,55 +3,67 @@
     <ng-container *ngIf="isLoading">
       <ngx-skeleton-loader class="headerSkeleton" animation="progress-dark" count="1" [theme]="{ 
       border: '1px solid white',
-      height:'49px',
-      background : '#c9f3f2'
+      height:'100px',
+      background : 'var(--tableRowDetails)'
     }" appearance="line"></ngx-skeleton-loader>
       <ngx-skeleton-loader class="testedSkeleton" animation="progress-dark" count="1" [theme]="{ 
       border: '1px solid white',
       height:'35px',
-      background : '#c9f3f2'
+      background : 'var(--tableRowDetails)'
     }" appearance="line"></ngx-skeleton-loader>
       <ngx-skeleton-loader class="cardsSkeleton" animation="progress-dark" count="4" [theme]="{ 
       'border-radius': '5px',
       height: '80px',
       width:'90px',
-      background : '#c9f3f2',
+      background : 'var(--tableRowDetails)',
       border: '1px solid white',
       margin:'unset'
     }" appearance="circle"></ngx-skeleton-loader>
       <ngx-skeleton-loader class="progressbarSkeleton" animation="progress-dark" count="1" [theme]="{ 
       border: '1px solid white',
       height:'100px',
-      background : '#c9f3f2',
+      background : 'var(--tableRowDetails)',
       'margin-top': '10px'
     }" appearance="line"></ngx-skeleton-loader>
       <div>
         <ngx-skeleton-loader class="TablesSkeleton" animation="progress-dark" count="30" [theme]="{ 
       border: '1px solid white',
-      background : '#c9f3f2',
+      background : 'var(--tableRowDetails)',
       height:'48px'
     }" appearance="line"></ngx-skeleton-loader>
       </div>
     </ng-container>
     <ng-container *ngIf="!isLoading">
-      <div class="covidHeader">
-        <div style="font-size: 40px;">INDIA</div>
-        <div class="lastUpdated">
-          <mat-icon class="lastUpdatedIcon">av_timer</mat-icon>{{lastUpdatedTime | lastUpdated}}
+      <div class="updateDetailsWrapper">
+        <div class="covidHeader" style="font-size: 40px;">INDIA</div>
+        <div class="lastUpdated" *ngIf="indiaData.meta.last_updated">
+          <mat-icon class="lastUpdatedIcon">av_timer</mat-icon>{{indiaData.meta.last_updated | lastUpdated}}
         </div>
-        <ng-container *ngIf="isDateLoading">
-          <mat-spinner value="25" diameter="25"></mat-spinner>
-        </ng-container>
-        <ng-container *ngIf="!isDateLoading">
-          <div>
-            <mat-form-field class="matForm" appearance="outline" (ngModel)="selectedDate">
-              <input matInput [min]="minDate" [max]="maxDate" (dateChange)="selectedDateChange( $event)"
-                [matDatepicker]="picker" hidden >
-              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-              <mat-datepicker #picker></mat-datepicker>
-            </mat-form-field>
-          </div>
-        </ng-container>
+        <div class="LatestUpdatesToggle" *ngIf="indiaData.meta.last_updated" (click)="toggleLatestUpdates()">
+          <ng-container *ngIf="!isLatestUpdates">
+            <img src="./../../../assets/update.svg">
+          </ng-container>
+          <ng-container *ngIf="isLatestUpdates">
+            <img src="./../../../assets/update_disabled.svg">
+          </ng-container>
+        </div>
+      </div>
+      <div class="calendar">
+        <mat-form-field class="matForm" appearance="outline" (ngModel)="selectedDate">
+          <input matInput [min]="minDate" [max]="maxDate" (dateChange)="selectedDateChange($event)"
+            [matDatepicker]="picker" hidden>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="latestUpdatesWrapper" *ngIf="isLatestUpdates && indiaData.meta.last_updated">
+        <div class="latestUpdates" *ngFor="let updates of latestUpdates">
+          <div class="latestUpdateTime">{{updates.timestamp*1000 | lastUpdated}}</div>
+          <div class="latestUpdateDetail">{{updates.update}}</div>
+        </div>
+      </div>
+      <div class="selectedDate">
+        {{selectedDate}}
       </div>
       <div class="testedWrapper">
         <div class="population">
@@ -198,7 +210,7 @@
               <div (click)="navigateToState(data.state)" class="moreDetails" matRipple matRippleColor="#e5a0a080">
                 {{data.state}} details<mat-icon>more_vert</mat-icon>
               </div>
-              <div class="lastUpdated">
+              <div class="lastUpdated" *ngIf="data.value.meta.last_updated">
                 <mat-icon class="lastUpdatedIcon">av_timer</mat-icon>{{data.value.meta.last_updated | lastUpdated}}
               </div>
             </div>
