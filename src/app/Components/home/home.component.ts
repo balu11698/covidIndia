@@ -13,8 +13,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./home.component.scss'],
   animations: [
     trigger('openClose', [
-      state('open', style({ height: '*',opacity:0 })),
-      state('close', style({ height: '0px',opacity:1 })),
+      state('open', style({ height: '*', opacity: 0 })),
+      state('close', style({ height: '0px', opacity: 1 })),
       transition('open <=> close', animate('1s')),
     ]),
     // [
@@ -40,8 +40,8 @@ export class HomeComponent implements OnInit {
   minDate: any;
   maxDate: any;
   isOpen = true;
-  latestUpdates : any;
-  isLatestUpdates :boolean = false;
+  latestUpdates: any;
+  isLatestUpdates: boolean = false;
   date = "";
   stateData: any[] = [];
   allDistrictData: any;
@@ -53,6 +53,7 @@ export class HomeComponent implements OnInit {
   todaysDistrictData: any;
   districtData: any;
   indiaData: any;
+  availableDates: any;
   stateColumns: string[] = ['State', 'Confirmed', 'Active', 'Recovered', 'Deaths'];
   districtColumns: string[] = ['District', 'Confirmed', 'Active', 'Recovered', 'Deaths'];
   dataSource: any;
@@ -112,7 +113,7 @@ export class HomeComponent implements OnInit {
   }
 
   async getAllData() {
-    await Promise.all([this.getStateData(),this.getTimeSeriesData(),this.getLogs()]);
+    await Promise.all([this.getStateData(), this.getTimeSeriesData(), this.getLogs()]);
     this.isLoading = false;
   }
   getStateNames(shortForm: any) {
@@ -152,16 +153,16 @@ export class HomeComponent implements OnInit {
   async getTimeSeriesData() {
     console.time("timeseries")
     let data: any = await this.api.fetchTimeSeriesData();
-    let dates = Object.keys(JSON.parse(data)['TT']['dates']);
-    let first: any = dates.shift();
-    let last: any = dates.pop();
+    this.availableDates = Object.keys(JSON.parse(data)['TT']['dates']);
+    let first: any = this.availableDates[0];
+    let last: any = this.availableDates[this.availableDates.length - 1];
     this.maxDate = new Date(last);
     this.minDate = new Date(first);
     console.timeEnd("timeseries")
   }
-  async getLogs(){
-    let logs:any = await this.api.fetchLogs();
-    this.latestUpdates = (JSON.parse(logs).slice(-5)).reverse();  
+  async getLogs() {
+    let logs: any = await this.api.fetchLogs();
+    this.latestUpdates = (JSON.parse(logs).slice(-5)).reverse();
     console.log(this.latestUpdates)
   }
   sortStateData(sort: Sort) {
@@ -253,11 +254,29 @@ export class HomeComponent implements OnInit {
   formatDate(date: any) {
     return date.getFullYear() + '-' + (((date.getMonth() + 1) < 10) ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1)) + '-' + ((date.getDate() < 10) ? '0' + date.getDate() : date.getDate());
   }
-  toggleLatestUpdates(){
-    this.isLatestUpdates = (this.isLatestUpdates == true) ? false : true;
-    this.isOpen = !this.isOpen;
+ async toggleLatestUpdates() {
+    this.isLatestUpdates = (this.isLatestUpdates == true) ? await this.disableLatestUpdates() : true;
   }
-
+  disableLatestUpdates() {
+    const promise = new Promise<boolean>(resolve => {
+      let elements = document.querySelectorAll('.latestUpdates');
+      for(let i=0 ; i<elements.length ; i++){
+        elements[i].classList.add("fadeOut")
+      }
+      setTimeout(() => {
+        for(let i=0 ; i<elements.length ; i++){
+          elements[i].classList.remove("fadeOut")
+        }
+        resolve(false);
+      }, 1000);
+    })
+    return promise
+  }
+  myFilter = (d: Date | null): boolean => {
+    const day = this.formatDate(d || new Date());
+    let isDateAvailable = (this.availableDates.includes(day)) ? true : false
+    return isDateAvailable;
+  }
 
   // async getStateData() {
   //   let untrimmedStateData: any = await this.api.fetchStateData();

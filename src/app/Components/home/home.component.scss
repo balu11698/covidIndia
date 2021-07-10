@@ -81,15 +81,12 @@
       margin-bottom: 10px;
     }
     .latestUpdatesWrapper {
-      // animation-name: fade-side;
-      // animation-duration: 1s;
-      // animation-delay: 0.2s;
-      // animation-fill-mode: both;
       .latestUpdates {
         background: var(--tableRowDetails);
         animation-name: fade-down;
-        animation-duration: 0.15s;
+        animation-duration: 0.25s;
         animation-fill-mode: both;
+        animation-timing-function: ease-in-out;
         margin-bottom: 10px;
         padding: 5px 10px;
         border-radius: 5px;
@@ -98,6 +95,12 @@
           opacity: 0.8;
           margin-bottom: 4px;
         }
+      }
+      .fadeOut {
+        animation-name: fade-up;
+        animation-duration: 0.25s;
+        animation-fill-mode: both;
+        animation-timing-function: ease-in-out;
       }
       @for $i from 1 through 5 {
         .latestUpdates:nth-child(#{$i}n) {
@@ -272,6 +275,13 @@
       animation-duration: 0.75s;
       animation-delay: 0.3s;
       animation-fill-mode: both;
+      transition: all 2s ease;
+      .stateTotalWrapper {
+        animation-name: fade-side;
+        animation-duration: 0.75s;
+        animation-delay: 0.3s;
+        animation-fill-mode: both;
+      }
       .stateWrapper {
         cursor: pointer;
       }
@@ -377,6 +387,11 @@
         .header {
           background: var(--tableColumnHeader);
         }
+      }
+      .districtDataWrapper {
+        animation-name: fade-down;
+        animation-duration: 0.5s;
+        animation-fill-mode: both;
       }
       .end {
         display: flex;
@@ -487,13 +502,32 @@ div {
 @keyframes fade-down {
   0% {
     opacity: 0;
-    transform: translate3d(0px, -20px, 0px);
+    transform: translate3d(0px, -10px, 0px);
+    // height: 0;
   }
   100% {
     opacity: 1;
+    // height: max-content;
     // transform: translateZ(0);
   }
 }
+@keyframes fade-up {
+  0% {
+    opacity: 1;
+    // height: max-content;
+  }
+  100% {
+    transform: translate3d(0px, -10px, 0px);
+    opacity: 0;
+    // height: 0;
+    // transform: translateZ(0);
+  }
+}
+// @keyframes move {
+//   100% {
+   
+//   }
+// }
 // @keyframes animate {
 //   from {opacity:0;}
 //   to {opacity: 1;}
