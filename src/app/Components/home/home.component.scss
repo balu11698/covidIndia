@@ -1,27 +1,21 @@
 .container {
   min-height: 100vh;
   display: flex;
+  margin: 15px 50px;
   // background-color: #86dfec;
-  transition: background-color 1s linear;
   .contentWrapper {
     display: flex;
     flex-direction: column;
     width: 100%;
-    margin: 15px 50px;
-    overflow-x: auto;
     .cardsSkeleton {
       display: flex;
       justify-content: space-between;
     }
     .covidHeader {
       color: #e77070;
-      position: sticky;
-      left: 0;
     }
     .updateDetailsWrapper {
       color: #e77070;
-      position: sticky;
-      left: 0;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -83,7 +77,7 @@
     .latestUpdatesWrapper {
       .latestUpdates {
         background: var(--tableRowDetails);
-        animation-name: fade-down;
+        animation-name: fadeDownUpdates;
         animation-duration: 0.25s;
         animation-fill-mode: both;
         animation-timing-function: ease-in-out;
@@ -97,7 +91,7 @@
         }
       }
       .fadeOut {
-        animation-name: fade-up;
+        animation-name: fadeUpUpdates;
         animation-duration: 0.25s;
         animation-fill-mode: both;
         animation-timing-function: ease-in-out;
@@ -112,14 +106,12 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
-      color: #5e2990;
+      color: #8441c4;
       margin-bottom: 10px;
       animation-name: fade-side;
       animation-duration: 0.75s;
       animation-delay: 0.1s;
       animation-fill-mode: both;
-      position: sticky;
-      left: 0;
       .population,
       .tested,
       .vaccinated {
@@ -139,8 +131,6 @@
     .totalDataWrapper {
       display: flex;
       justify-content: space-between;
-      position: sticky;
-      left: 0;
       animation-name: fade-side;
       animation-duration: 0.75s;
       animation-delay: 0.1s;
@@ -152,10 +142,16 @@
         align-items: center;
         margin-bottom: 10px;
         background: var(--cardsColor);
+        transition: all 0.5s ease;
         .today {
           display: flex;
           align-items: center;
           font-size: 12px;
+          animation-name: fadeDown;
+          animation-delay: 0.25s;
+          animation-duration: 0.5s;
+          animation-fill-mode: both;
+          margin: 5px 0;
           .arrowIcon {
             height: unset;
             width: unset;
@@ -164,6 +160,9 @@
         }
         .totalCount {
           font-size: 16px;
+          animation-name: fadeDown;
+          animation-duration: 0.5s;
+          animation-fill-mode: both;
         }
       }
       .total.confirmed {
@@ -180,23 +179,29 @@
       }
     }
     .vaccinationWrapper {
-      position: sticky;
-      left: 0;
       animation-name: fade-side;
-      animation-duration: 0.75s;
+      animation-duration: 0.5s;
       animation-delay: 0.2s;
       -webkit-animation-name: fade-side;
-      -webkit-animation-duration: 0.75s;
+      -webkit-animation-duration: 0.5s;
       -webkit-animation-delay: 0.2s;
       animation-fill-mode: both;
       .vaccination1Legend {
         // display: flex;
+        animation-name: fadeDown;
+        animation-delay: 0.2s;
+        animation-duration: 0.5s;
+        animation-fill-mode: both;
         .vaccinationLabelWrapper {
           display: flex;
         }
       }
       .vaccination2Legend {
         // display: flex;
+        animation-name: fadeDown;
+        animation-delay: 0.2s;
+        animation-duration: 0.5s;
+        animation-fill-mode: both;
         margin-bottom: 10px;
         .vaccinationLabelWrapper {
           display: flex;
@@ -208,8 +213,6 @@
         background: aliceblue;
         height: 25px;
         background: #edc0c0;
-        position: sticky;
-        left: 0;
         border-radius: 5px;
         .progressBarValueVaccination1 {
           height: 100%;
@@ -231,7 +234,7 @@
             -webkit-animation: progressBar 0.5s ease-in-out;
             -moz-animation: progressBar 0.5s ease-in-out;
             animation: progressBar 0.5s ease-in-out;
-            animation-delay: 0.75s;
+            animation-delay: 0.4s;
             animation-fill-mode: both;
             -webkit-animation-fill-mode: both;
             -moz-animation-fill-mode: both;
@@ -258,7 +261,7 @@
             -webkit-animation: progressBar 0.5s ease-in-out;
             -moz-animation: progressBar 0.5s ease-in-out;
             animation: progressBar 0.5s ease-in-out;
-            animation-delay: 1.25s;
+            animation-delay: 0.75s;
             animation-fill-mode: both;
             -webkit-animation-fill-mode: both;
             -moz-animation-fill-mode: both;
@@ -267,141 +270,154 @@
         }
       }
     }
-    .stateDataWrapper {
-      width: 100%;
-      z-index: 2;
-      min-width: 600px;
-      animation-name: fade-side;
-      animation-duration: 0.75s;
-      animation-delay: 0.3s;
-      animation-fill-mode: both;
-      transition: all 2s ease;
-      .stateTotalWrapper {
+    .tableContainer {
+      overflow-x: auto;
+      .stateDataWrapper {
+        width: 100%;
+        z-index: 2;
+        min-width: 600px;
         animation-name: fade-side;
         animation-duration: 0.75s;
         animation-delay: 0.3s;
         animation-fill-mode: both;
-      }
-      .stateWrapper {
-        cursor: pointer;
-      }
-      .moreDetailsWrapper {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 10px;
-        position: sticky;
-        left: 0;
-        width: fit-content;
-      }
-      .moreDetails {
-        display: flex;
-        align-items: center;
-        background: #edc0c0;
-        width: fit-content;
-        padding: 5px;
-        border-radius: 5px;
-        position: sticky;
-        left: 0;
-        cursor: pointer;
-        color: black;
-      }
-      .lastUpdated {
-        display: flex;
-        align-items: center;
-        color: #e86b6b;
-        height: 40px;
-        position: sticky;
-        left: 0;
-        width: fit-content;
-        .lastUpdatedIcon {
-          margin-right: 5px;
+        .stateWrapper {
+          cursor: pointer;
         }
-      }
-      .stateWrapper,
-      .stateHeaderWrapper,
-      .districtHeaderWrapper,
-      .districtWrapper {
-        display: flex;
-        margin-bottom: 10px;
-        .name {
-          width: 25%;
+        .moreDetailsWrapper {
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 10px;
           position: sticky;
           left: 0;
-          background: var(--tableRowHeader);
+          width: fit-content;
+        }
+        .moreDetails {
           display: flex;
-          z-index: 1;
           align-items: center;
-          padding-left: 10px;
-        }
-        .name,
-        .active,
-        .recovered,
-        .deaths,
-        .confirmed {
+          background: #edc0c0;
+          width: fit-content;
+          padding: 5px;
           border-radius: 5px;
-          min-height: 48px;
-          word-break: break-word;
+          position: sticky;
+          left: 0;
+          cursor: pointer;
+          color: black;
         }
-        .name,
-        .active,
-        .recovered,
-        .confirmed {
-          margin-right: 10px;
-        }
-        .active,
-        .recovered,
-        .deaths,
-        .confirmed {
-          background: var(--tableRowDetails);
+        .lastUpdated {
           display: flex;
-          flex-direction: column;
-          align-items: flex-end;
+          align-items: center;
+          color: #e86b6b;
+          height: 40px;
+          position: sticky;
+          left: 0;
+          width: fit-content;
+          .lastUpdatedIcon {
+            margin-right: 5px;
+          }
+        }
+        .stateWrapper,
+        .stateHeaderWrapper,
+        .districtHeaderWrapper,
+        .districtWrapper {
+          display: flex;
+          margin-bottom: 10px;
+          .name {
+            width: 25%;
+            position: sticky;
+            left: 0;
+            background: var(--tableRowHeader);
+            display: flex;
+            z-index: 1;
+            align-items: center;
+            padding-left: 10px;
+          }
+          .name,
+          .active,
+          .recovered,
+          .deaths,
+          .confirmed {
+            border-radius: 5px;
+            min-height: 48px;
+            word-break: break-word;
+          }
+          .name,
+          .active,
+          .recovered,
+          .confirmed {
+            margin-right: 10px;
+          }
+          .active,
+          .recovered,
+          .deaths,
+          .confirmed {
+            background: var(--tableRowDetails);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            justify-content: center;
+            padding-right: 10px;
+            .confirmedRed,
+            .recoveredGreen,
+            .deathsGrey {
+              animation-name: fadeDown;
+              animation-delay: 0.25s;
+              animation-duration: 0.5s;
+              animation-fill-mode: both;
+            }
+            .confirmedNumber,
+            .recoveredNumber,
+            .activeNumber,
+            .deathsNumber {
+              animation-name: fadeDown;
+              animation-duration: 0.5s;
+              animation-fill-mode: both;
+            }
+            .confirmedRed {
+              display: flex;
+              color: #e86b6b;
+            }
+            .arrowIcon {
+              font-size: 18px;
+              height: unset;
+              width: unset;
+            }
+            .recoveredGreen {
+              display: flex;
+              color: #4fb64f;
+            }
+            .deathsGrey {
+              display: flex;
+              color: #a4a4ac;
+            }
+          }
+          .active,
+          .deaths {
+            width: 16.5%;
+          }
+          .confirmed,
+          .recovered {
+            width: 21%;
+          }
+          .header {
+            background: var(--tableColumnHeader);
+          }
+        }
+        // .stateWrapper,
+        // .districtWrapper {
+        //   animation-name: fadeDown;
+        //   animation-duration: .5s;
+        //   animation-fill-mode: both;
+        // }
+        .end {
+          display: flex;
           justify-content: center;
-          padding-right: 10px;
-          .confirmedRed {
-            display: flex;
-            color: #e86b6b;
-          }
-          .arrowIcon {
-            font-size: 18px;
-            height: unset;
-            width: unset;
-          }
-          .recoveredGreen {
-            display: flex;
-            color: #4fb64f;
-          }
-          .deathsGrey {
-            display: flex;
-            color: #a4a4ac;
-          }
+          align-items: center;
+          height: 50px;
+          width: fit-content;
+          position: sticky;
+          left: 0;
+          color: #e86b6b;
         }
-        .active,
-        .deaths {
-          width: 16.5%;
-        }
-        .confirmed,
-        .recovered {
-          width: 21%;
-        }
-        .header {
-          background: var(--tableColumnHeader);
-        }
-      }
-      .districtDataWrapper {
-        animation-name: fade-down;
-        animation-duration: 0.5s;
-        animation-fill-mode: both;
-      }
-      .end {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 50px;
-        width: fit-content;
-        position: sticky;
-        left: 0;
-        color: #e86b6b;
       }
     }
   }
@@ -413,8 +429,8 @@
 // }
 @media screen and (max-width: 800px) {
   .container {
+    margin: 15px;
     .contentWrapper {
-      margin: 15px;
       mat-card {
         padding: 5px;
       }
@@ -499,33 +515,42 @@ div {
     // transform: translateZ(0);
   }
 }
-@keyframes fade-down {
+@keyframes fadeDownUpdates {
   0% {
     opacity: 0;
     transform: translate3d(0px, -10px, 0px);
-    // height: 0;
+    height: 0;
   }
   100% {
     opacity: 1;
-    // height: max-content;
+    height: max-content;
     // transform: translateZ(0);
   }
 }
-@keyframes fade-up {
+@keyframes fadeUpUpdates {
   0% {
     opacity: 1;
-    // height: max-content;
+    height: max-content;
   }
   100% {
     transform: translate3d(0px, -10px, 0px);
     opacity: 0;
-    // height: 0;
+    height: 0;
     // transform: translateZ(0);
+  }
+}
+@keyframes fadeDown {
+  0% {
+    opacity: 0;
+    transform: translate3d(0px, -10px, 0px);
+  }
+  100% {
+    opacity: 1;
   }
 }
 // @keyframes move {
 //   100% {
-   
+
 //   }
 // }
 // @keyframes animate {
@@ -538,11 +563,11 @@ div {
 //   inherits: false;
 // }
 
-// .totalCount1 {
+// .confirmedValue {
 //   animation: animate var(--duration) forwards var(--timing, linear);
 //   counter-reset: num var(--n);
 // }
-// .totalCount1::before {
+// .confirmedValue::before {
 //   content: counter(num);
 // }
 
@@ -554,7 +579,7 @@ div {
 //     --n: var(--to);
 //   }
 // }
-::-webkit-scrollbar {
+::scrollbar {
   width: 0; /* Remove scrollbar space */
   background: transparent; /* Optional: just make scrollbar invisible */
 }

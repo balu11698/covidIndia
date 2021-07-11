@@ -52,7 +52,7 @@ export class HomeComponent implements OnInit {
   todaysStateData: any;
   todaysDistrictData: any;
   districtData: any;
-  indiaData: any;
+  indiaData: any[] = [];
   availableDates: any;
   stateColumns: string[] = ['State', 'Confirmed', 'Active', 'Recovered', 'Deaths'];
   districtColumns: string[] = ['District', 'Confirmed', 'Active', 'Recovered', 'Deaths'];
@@ -125,7 +125,7 @@ export class HomeComponent implements OnInit {
     for (let key in keys) {
       this.stateData.push({ state: this.getStateNames(key), value: keys[key] });
     }
-    this.indiaData = keys['TT'];
+    this.indiaData.push(keys['TT']);
     this.isIndiaLoading = false;
     console.log(this.indiaData)
     this.stateData = this.stateData.filter((data: any) => {
@@ -232,7 +232,8 @@ export class HomeComponent implements OnInit {
     for (let key in keys) {
       this.stateData.push({ state: this.getStateNames(key), value: keys[key] });
     }
-    this.indiaData = keys['TT'];
+    this.indiaData = [];
+    this.indiaData.push(keys['TT']);
     this.stateData = this.stateData.filter((data: any) => {
       return data.state != "India";
     })
@@ -268,7 +269,7 @@ export class HomeComponent implements OnInit {
           elements[i].classList.remove("fadeOut")
         }
         resolve(false);
-      }, 1000);
+      }, 950);
     })
     return promise
   }

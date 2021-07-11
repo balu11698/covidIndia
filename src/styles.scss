@@ -5,7 +5,8 @@
 //   height: 100%;
 // }
 .theme-light {
-  --backgroundColor: linear-gradient(to right top, #9fecde, #86dfec);
+  // --backgroundColor: linear-gradient(to right top, #9fecde, #86dfec);
+  --backgroundColor:#86dfec;
   --textColor: black;
   --tableColumnHeader: #a6f4d1;
   --tableRowHeader: #a6eff4;
@@ -22,8 +23,9 @@
 }
 body {
   margin: 0;
-  background: var(--backgroundColor);
+  background-color: var(--backgroundColor);
   color: var(--textColor);
+  transition: color 1s ease;
 }
 @font-face {
   font-family: "Inter";
