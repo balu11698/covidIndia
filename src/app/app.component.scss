@@ -12,10 +12,12 @@
     .covidHeaderName {
       font-size: 40px;
       margin-left: 15px;
-      background: -webkit-linear-gradient(#ff4949, #3776ff);
+      background: linear-gradient(45deg, #ac6aff, #4681ff);
       background-clip: text;
+      background-size: 400% 100%;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+      animation: shine 2s linear infinite;
     }
   }
   .themeIcon {
@@ -26,11 +28,22 @@
     color: #e9ef41;
   }
   .themeIcon.dark {
-    color :#484848;
+    color: #484848;
   }
 }
 @media screen and (max-width: 800px) {
   .header {
     margin: 15px;
+  }
+}
+
+@keyframes shine {
+  0%,
+  100% {
+    background-position: 0 0;
+  }
+
+  50% {
+    background-position: 100% 0;
   }
 }
