@@ -45,6 +45,8 @@
       animation-name: fade-side;
       animation-duration: 0.75s;
       animation-fill-mode: forwards;
+      align-items: center;
+      color: #e77070;
       ::ng-deep .matForm {
         width: 34px;
         .mat-form-field-appearance-outline .mat-form-field-wrapper {
@@ -60,6 +62,7 @@
         .mat-form-field-infix,
         .mat-form-field-flex {
           padding: unset;
+          margin: unset;
         }
         .mat-form-field-suffix {
           position: unset;
@@ -69,10 +72,6 @@
           color: #e77070;
         }
       }
-    }
-    .selectedDate {
-      color: #e77070;
-      margin-bottom: 10px;
     }
     .latestUpdatesWrapper {
       .latestUpdates {
@@ -110,7 +109,7 @@
       margin-bottom: 10px;
       animation-name: fade-side;
       animation-duration: 0.75s;
-      animation-delay: 0.1s;
+      animation-delay: 0.2s;
       animation-fill-mode: both;
       .population,
       .tested,
@@ -133,8 +132,9 @@
       justify-content: space-between;
       animation-name: fade-side;
       animation-duration: 0.75s;
-      animation-delay: 0.1s;
+      animation-delay: 0.4s;
       animation-fill-mode: both;
+      flex-wrap: wrap;
       .total {
         display: flex;
         justify-content: space-between;
@@ -181,15 +181,15 @@
     .vaccinationWrapper {
       animation-name: fade-side;
       animation-duration: 0.5s;
-      animation-delay: 0.2s;
+      animation-delay: 0.5s;
       -webkit-animation-name: fade-side;
       -webkit-animation-duration: 0.5s;
-      -webkit-animation-delay: 0.2s;
+      -webkit-animation-delay: 0.5s;
       animation-fill-mode: both;
       .vaccination1Legend {
         // display: flex;
         animation-name: fadeDown;
-        animation-delay: 0.2s;
+        animation-delay: 0.6s;
         animation-duration: 0.5s;
         animation-fill-mode: both;
         .vaccinationLabelWrapper {
@@ -199,7 +199,7 @@
       .vaccination2Legend {
         // display: flex;
         animation-name: fadeDown;
-        animation-delay: 0.2s;
+        animation-delay: 0.7s;
         animation-duration: 0.5s;
         animation-fill-mode: both;
         margin-bottom: 10px;
@@ -234,7 +234,7 @@
             -webkit-animation: progressBar 0.5s ease-in-out;
             -moz-animation: progressBar 0.5s ease-in-out;
             animation: progressBar 0.5s ease-in-out;
-            animation-delay: 0.4s;
+            animation-delay: 0.6s;
             animation-fill-mode: both;
             -webkit-animation-fill-mode: both;
             -moz-animation-fill-mode: both;
@@ -261,7 +261,7 @@
             -webkit-animation: progressBar 0.5s ease-in-out;
             -moz-animation: progressBar 0.5s ease-in-out;
             animation: progressBar 0.5s ease-in-out;
-            animation-delay: 0.75s;
+            animation-delay: 0.7s;
             animation-fill-mode: both;
             -webkit-animation-fill-mode: both;
             -moz-animation-fill-mode: both;
@@ -278,7 +278,7 @@
         min-width: 600px;
         animation-name: fade-side;
         animation-duration: 0.75s;
-        animation-delay: 0.3s;
+        animation-delay: 0.8s;
         animation-fill-mode: both;
         .stateWrapper {
           cursor: pointer;

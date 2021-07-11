@@ -127,7 +127,6 @@ export class HomeComponent implements OnInit {
     }
     this.indiaData.push(keys['TT']);
     this.isIndiaLoading = false;
-    console.log(this.indiaData)
     this.stateData = this.stateData.filter((data: any) => {
       return data.state != "India";
     })
@@ -148,7 +147,6 @@ export class HomeComponent implements OnInit {
     this.stateData.forEach((e: any) => {
       this.hideDistricts[e.state] = false;
     });
-    console.log(this.stateData)
   }
   async getTimeSeriesData() {
     console.time("timeseries")
@@ -163,7 +161,6 @@ export class HomeComponent implements OnInit {
   async getLogs() {
     let logs: any = await this.api.fetchLogs();
     this.latestUpdates = (JSON.parse(logs).slice(-5)).reverse();
-    console.log(this.latestUpdates)
   }
   sortStateData(sort: Sort) {
     const data = this.stateData.slice();
@@ -216,17 +213,14 @@ export class HomeComponent implements OnInit {
     console.time("dataMin")
     let data: any = await this.api.fetchDataMin();
     this.dataMin = JSON.parse(data)
-    console.log(this.dataMin)
     console.timeEnd("dataMin")
   }
   async selectedDateChange(e: any) {
     let date = new Date(e.value)
     let formattedMaxDate = this.formatDate(this.maxDate);
     let formattedSelectedDate = this.formatDate(date);
-    this.selectedDate = (formattedMaxDate == formattedSelectedDate) ? '' : formattedSelectedDate
-    console.log(formattedSelectedDate, formattedMaxDate)
-    let selectedDateData: any = await this.api.fetchStateData(this.selectedDate)
-    console.log(JSON.parse(selectedDateData), "selectedDateData")
+    let selectedDate = (formattedMaxDate == formattedSelectedDate) ? '' : formattedSelectedDate
+    let selectedDateData: any = await this.api.fetchStateData(selectedDate)
     let keys = JSON.parse(selectedDateData)
     this.stateData = [];
     for (let key in keys) {
@@ -251,6 +245,7 @@ export class HomeComponent implements OnInit {
         return (parseFloat(b.value.total?.confirmed) - parseFloat(a.value.total?.confirmed))
       })
     })
+    this.selectedDate=selectedDate;
   }
   formatDate(date: any) {
     return date.getFullYear() + '-' + (((date.getMonth() + 1) < 10) ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1)) + '-' + ((date.getDate() < 10) ? '0' + date.getDate() : date.getDate());

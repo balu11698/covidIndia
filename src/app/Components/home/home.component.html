@@ -51,6 +51,9 @@
         </div>
       </div>
       <div class="calendar">
+        <div class="selectedDate">
+          {{selectedDate}}
+        </div>
         <mat-form-field class="matForm" appearance="outline" (ngModel)="selectedDate">
           <input matInput [min]="minDate" [max]="maxDate" (dateChange)="selectedDateChange($event)"
             [matDatepickerFilter]="myFilter" [matDatepicker]="picker" hidden>
@@ -63,9 +66,6 @@
           <div class="latestUpdateTime">{{updates.timestamp*1000 | lastUpdated}}</div>
           <div class="latestUpdateDetail">{{updates.update}}</div>
         </div>
-      </div>
-      <div class="selectedDate">
-        {{selectedDate}}
       </div>
       <div class="testedWrapper">
         <div class="population">

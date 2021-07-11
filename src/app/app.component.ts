@@ -10,7 +10,7 @@ export class AppComponent implements OnInit {
   theme: any = "";
   ngOnInit() {
     this.theme = window.localStorage.getItem('theme');
-    (this.theme == "" || this.theme == "theme-light") ?
+    (!this.theme || this.theme == "theme-light") ?
       document.body.classList.add("theme-light") :
       document.body.classList.add("theme-dark");
   }
