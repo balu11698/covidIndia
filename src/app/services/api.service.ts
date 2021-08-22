@@ -7,7 +7,7 @@ export class ApiService {
 
   stateData: any;
 
-  url = 'https://api.covid19india.org/v4/min/';
+  url = 'https://data.covid19india.org/v4/min/';
 
   constructor(private http: HttpClient) { }
 
@@ -38,7 +38,7 @@ export class ApiService {
   }
   fetchLogs(){
     const promise = new Promise(resolve => {
-      this.http.get(`https://api.covid19india.org/updatelog/log.json`, { responseType: 'text' }).subscribe((data) => {
+      this.http.get(`https://data.covid19india.org/updatelog/log.json`, { responseType: 'text' }).subscribe((data) => {
         resolve(data);
       })
     })
